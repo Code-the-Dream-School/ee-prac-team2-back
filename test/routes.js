@@ -10,6 +10,7 @@ describe('GET /api/v1', () => {
   it('it responds with 200', (done) => {
     chai.request(app).get('/api/v1')
       .end((err, res) => {
+        should.not.exist(err);
         res.should.have.status(200);
         done();
       });
@@ -19,6 +20,7 @@ describe('GET /api/v1', () => {
     chai.request(app).get('/api/v1')
       .end((err, res) => {
         const responseDataValue = 'This is a full stack app!';
+        should.not.exist(err);
         res.body.should.have.property('data').eql(responseDataValue);
         done();
       });
@@ -29,6 +31,7 @@ describe('GET /', () => {
   it('it responds with 404', (done) => {
     chai.request(app).get('/')
       .end((err, res) => {
+        should.not.exist(err);
         res.should.have.status(404);
         done();
       });

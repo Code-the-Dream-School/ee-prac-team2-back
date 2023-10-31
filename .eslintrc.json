@@ -2,7 +2,8 @@
     "env": {
         "node": true,
         "commonjs": true,
-        "es2021": true
+        "es2021": true,
+        "mocha": true
     },
     "extends": [
         "eslint:recommended",
@@ -16,6 +17,8 @@
         "ecmaVersion": "latest"
     },
     "rules": {
+        // seems only relevant to publishing on NPM
+        "n/no-unpublished-require": "off"
     },
     "overrides": [
         {
