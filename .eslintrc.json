@@ -2,7 +2,8 @@
     "env": {
         "node": true,
         "commonjs": true,
-        "es2021": true
+        "es2021": true,
+        "mocha": true
     },
     "extends": [
         "eslint:recommended",
@@ -16,5 +17,23 @@
         "ecmaVersion": "latest"
     },
     "rules": {
-    }
+        // seems only relevant to publishing on NPM
+        "n/no-unpublished-require": "off"
+    },
+    "overrides": [
+        {
+            "files": ["test/*.*"],
+            "rules": {
+                "no-unused-vars": [
+                    "error",
+                    {
+                        /* `should` and `expect` aren't "used"
+                         in a way that's obvious to eslint */
+                        "varsIgnorePattern": "should|expect"
+                    }
+                ]
+            }
+        }
+    ]
+
 }
