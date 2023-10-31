@@ -1,9 +1,8 @@
 process.env.NODE_ENV = 'test';
-let chai = require('chai');
-let chaiHttp = require('chai-http');
-let server = require('../src/server');
-let app = require('../src/app');
-let should = chai.should();
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+const app = require('../src/app');
+const should = chai.should();
 
 chai.use(chaiHttp);
 
@@ -19,7 +18,7 @@ describe('GET /api/v1', () => {
   it('it responds with expected json', (done) => {
     chai.request(app).get('/api/v1')
       .end((err, res) => {
-        const responseDataValue = 'This is a full stack app!'
+        const responseDataValue = 'This is a full stack app!';
         res.body.should.have.property('data').eql(responseDataValue);
         done();
       });
