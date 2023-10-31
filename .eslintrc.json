@@ -4,7 +4,14 @@
         "commonjs": true,
         "es2021": true
     },
-    "extends": "eslint:recommended",
+    "extends": [
+        "eslint:recommended",
+        "eslint-config-standard",
+        "eslint-config-semistandard",
+        "plugin:import/recommended",
+        "plugin:n/recommended",
+        "plugin:promise/recommended"
+    ],
     "parserOptions": {
         "ecmaVersion": "latest"
     },
