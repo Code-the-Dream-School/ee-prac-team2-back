@@ -1,0 +1,5 @@
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Angel and Darga will be auto-requested as reviewers by any non-draft PR
+# TODO add entire BE team
+* @angelkbrown @dargaCode
