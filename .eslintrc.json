@@ -16,5 +16,20 @@
         "ecmaVersion": "latest"
     },
     "rules": {
-    }
+    "overrides": [
+        {
+            "files": ["test/*.*"],
+            "rules": {
+                "no-unused-vars": [
+                    "error",
+                    {
+                        /* `should` and `expect` aren't "used"
+                         in a way that's obvious to eslint */
+                        "varsIgnorePattern": "should|expect"
+                    }
+                ]
+            }
+        }
+    ]
+
 }
