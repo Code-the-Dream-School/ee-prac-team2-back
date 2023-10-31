@@ -16,6 +16,7 @@
         "ecmaVersion": "latest"
     },
     "rules": {
+    },
     "overrides": [
         {
             "files": ["test/*.*"],
