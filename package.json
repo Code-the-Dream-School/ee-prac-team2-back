@@ -4,7 +4,8 @@
   "description": "Back-End Repo for Team 1 of Baboon/Bald Eagle Practicum",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon src/server.js"
+    "dev": "nodemon src/server.js",
+    "test": "mocha"
   },
   "author": "",
   "license": "ISC",
@@ -16,6 +17,15 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "chai": "^4.3.10",
+    "chai-http": "^4.4.0",
+    "eslint": "^8.52.0",
+    "eslint-config-semistandard": "^17.0.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.29.0",
+    "eslint-plugin-n": "^15.7.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "mocha": "^10.2.0",
     "nodemon": "^2.0.21"
   }
 }
