@@ -1,3 +1,7 @@
+# Team Members
+
+* **Jillian** \([@catbus00](https://github.com/catbus00)\) is a student studying React, but showing Backend Team some support!
+
 # Back-End Repo for Node/React Practicum
 
 This will be the API for the front-end React app part of your practicum project.
