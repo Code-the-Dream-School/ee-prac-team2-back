@@ -4,6 +4,7 @@
   "description": "Back-End Repo for Team 2 of Emu/Echidna Practicum",
   "main": "app.js",
   "scripts": {
+    "both": "concurrently \"cd ../ee-prac-team2-front && npm start\" \"npm run dev\"",
     "dev": "nodemon src/server.js",
     "test": "mocha",
     "lint": "eslint . --ext .ts,.js, --fix --ignore-path .gitignore"
@@ -20,6 +21,7 @@
   "devDependencies": {
     "chai": "^4.3.10",
     "chai-http": "^4.4.0",
+    "concurrently": "^8.2.2",
     "eslint": "^8.52.0",
     "eslint-config-semistandard": "^17.0.0",
     "eslint-config-standard": "^17.1.0",
