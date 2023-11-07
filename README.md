@@ -1,5 +1,5 @@
 # Team Members
-- **Mohammad** ([@msrezaie](https://github.com/msrezaie)), A MERN stack aficionado
+- **Mohammad** ([@msrezaie](https://github.com/msrezaie)), a MERN stack aficionado
 * **Jillian** \([@catbus00](https://github.com/catbus00)\) is a student studying React, but showing Backend Team some support!
 
 # Back-End Repo for Node/React Practicum
