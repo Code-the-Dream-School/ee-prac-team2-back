@@ -16,11 +16,9 @@ const eventSchema = new mongoose.Schema(
       ref: "User",
       unique: true,
     },
+    votes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     date: {
       type: Date,
-    },
-    votes: {
-      type: String,
     },
   },
   { timestamps: true }

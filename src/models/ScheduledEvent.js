@@ -10,10 +10,6 @@ const scheduledEventSchema = new mongoose.Schema(
     eventDate: {
       type: Date,
     },
-    currentDate: {
-      type: Date,
-      default: new Date.now(),
-    },
   },
   { timestamps: true }
 );

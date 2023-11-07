@@ -23,6 +23,7 @@ const userSchema = mongoose.Schema(
       minlength: [8, "password must be at least 8 characters long!"],
       select: false,
     },
+    groups: [{ type: mongoose.Schema.Types.ObjectId, ref: "Group" }],
 
     // maybe not for the MVP
     // role: {

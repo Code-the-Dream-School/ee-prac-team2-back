@@ -4,10 +4,11 @@ const groupSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, "please provide a name!"],
+      required: [true, "please provide a group name!"],
     },
     host: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
       required: [true, "a group must have a host!"],
       unique: true,
     },
