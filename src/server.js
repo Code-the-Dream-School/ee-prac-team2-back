@@ -1,4 +1,6 @@
 require("dotenv").config();
+require("express-async-errors");
+
 const mongoose = require("mongoose");
 
 const { PORT = 8000, MONGODB_URI } = process.env;

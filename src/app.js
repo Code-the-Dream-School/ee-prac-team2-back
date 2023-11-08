@@ -5,7 +5,10 @@ const cors = require("cors");
 const favicon = require("express-favicon");
 const logger = require("morgan");
 
+// imports
 const mainRouter = require("./routes/mainRouter");
+
+const { errorHandler, notFound } = require("./middleware/errorHandler");
 
 // middleware
 app.use(cors());
@@ -15,7 +18,14 @@ app.use(logger("dev"));
 app.use(express.static("public"));
 app.use(favicon(path.join(__dirname, "/public/favicon.ico")));
 
+app.get("/", (req, res) => {
+  res.send('<h2>Welcome!</h2><a href="#">Documentation</a>');
+});
+
 // routes
 app.use("/api/v1", mainRouter);
+
+app.use(notFound);
+app.use(errorHandler);
 
 module.exports = app;
