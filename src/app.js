@@ -7,11 +7,14 @@ const logger = require("morgan");
 
 // imports
 const mainRouter = require("./routes/mainRouter");
+const activityRouter = require("./routes/activityRouter");
 
 const { errorHandler, notFound } = require("./middleware/errorHandler");
 
 // middleware
-app.use(cors());
+
+// we shall change the cors origin once the frontend is deployed
+app.use(cors({ origin: "http://localhost:4000", optionsSuccessStatus: 200 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(logger("dev"));
@@ -24,6 +27,7 @@ app.get("/", (req, res) => {
 
 // routes
 app.use("/api/v1", mainRouter);
+app.use("/api/v1/activity", activityRouter);
 
 app.use(notFound);
 app.use(errorHandler);
