@@ -27,4 +27,26 @@ const saveActivity = async (req, res) => {
   return res.json({ msg: "Activity saved!", savedActivity });
 };
 
-module.exports = { getAllActivities, saveActivity };
+// @desc    Endpoint for creating an activity
+// @route   POST /api/v1/activity/create
+// @access  public
+const updateActivityVote = async (req, res) => {
+  const { _id } = req.params;
+  const { newVote } = req.body;
+  if (!newVote || isNaN(newVote)) {
+    res.status(400);
+    throw new Error("A new integer vote value must be provided!");
+  }
+  const updatedVote = await Activity.findOneAndUpdate(
+    { _id },
+    { votes: newVote },
+    { new: true }
+  );
+  if (!updatedVote) {
+    res.status(404);
+    throw new Error(`Activity with ${_id} ID does not exist!`);
+  }
+  return res.json({ msg: "Vote tally updated!", updatedVote });
+};
+
+module.exports = { getAllActivities, saveActivity, updateActivityVote };
