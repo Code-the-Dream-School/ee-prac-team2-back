@@ -6,7 +6,7 @@ const favicon = require("express-favicon");
 const logger = require("morgan");
 
 // imports
-const mainRouter = require("./routes/mainRouter");
+const testRouter = require("./routes/testRouter");
 
 const { errorHandler, notFound } = require("./middleware/errorHandler");
 
@@ -18,12 +18,8 @@ app.use(logger("dev"));
 app.use(express.static("public"));
 app.use(favicon(path.join(__dirname, "/public/favicon.ico")));
 
-app.get("/", (req, res) => {
-  res.send('<h2>Welcome!</h2><a href="#">Documentation</a>');
-});
-
 // routes
-app.use("/api/v1", mainRouter);
+app.use("/api/v1", testRouter);
 
 app.use(notFound);
 app.use(errorHandler);
