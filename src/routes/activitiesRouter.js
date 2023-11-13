@@ -5,12 +5,12 @@ const {
   getAllActivities,
   saveActivity,
   updateActivityVote,
-} = require("../controllers/activityController");
+} = require("../controllers/activitesController");
 
-// @route   GET /api/v1/activity
+// @route   GET /api/v1/activites
 router.get("/", getAllActivities);
 
-// @route   POST /api/v1/activity/create
+// @route   POST /api/v1/activites/create
 router.post("/create", saveActivity);
 
 // @route   PUT /api/v1/activity/vote/:_id
