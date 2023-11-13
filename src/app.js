@@ -23,7 +23,7 @@ app.use(favicon(path.join(__dirname, "/public/favicon.ico")));
 
 // routes
 app.use("/api/v1", testsRouter);
-app.use("/api/v1/activites", activitiesRouter);
+app.use("/api/v1/activities", activitiesRouter);
 
 app.use(notFound);
 app.use(errorHandler);
