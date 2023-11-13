@@ -1,16 +1,16 @@
 const Activity = require("../models/Activity");
 
 // @desc    Endpoint for fetching all activities
-// @route   GET /api/v1/activites
+// @route   GET /api/v1/activities
 // @access  public
 const getAllActivities = async (req, res) => {
   const response = await Activity.find();
 
-  return res.json({ count: response.length, activites: response });
+  return res.json({ count: response.length, activities: response });
 };
 
 // @desc    Endpoint for creating an activity
-// @route   POST /api/v1/activites/create
+// @route   POST /api/v1/activities/create
 // @access  public
 const saveActivity = async (req, res) => {
   const { name, category, description, votes } = req.body;
