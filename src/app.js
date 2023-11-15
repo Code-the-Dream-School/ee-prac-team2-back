@@ -8,6 +8,9 @@ const logger = require("morgan");
 // imports
 const testsRouter = require("./routes/testsRouter");
 const activitiesRouter = require("./routes/activitiesRouter");
+// api documentation: swagger
+// const swaggerDocument = require("yamljs").load("./swagger.yaml");
+const swaggerUi = require("swagger-ui-express");
 
 const { errorHandler, notFound } = require("./middleware/errorHandler");
 
@@ -22,6 +25,15 @@ app.use(express.static("public"));
 app.use(favicon(path.join(__dirname, "/public/favicon.ico")));
 
 // routes
+
+app.get("/", (req, res) => {
+  res.send(
+    '<h2>Welcome to Data-Night API home page!</h2><a href="/api-docs">Documentation</a>'
+  );
+});
+
+// app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 app.use("/api/v1", testsRouter);
 app.use("/api/v1/activities", activitiesRouter);
 
