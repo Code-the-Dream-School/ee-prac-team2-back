@@ -4,16 +4,16 @@ const router = express.Router();
 const {
   getAllActivities,
   saveActivity,
-  updateActivityVote,
-} = require("../controllers/activitesController");
+  updateActivity,
+} = require("../controllers/activitiesController");
 
 // @route   GET /api/v1/activites
 router.get("/", getAllActivities);
 
-// @route   POST /api/v1/activites/create
-router.post("/create", saveActivity);
+// @route   POST /api/v1/activites
+router.post("/", saveActivity);
 
 // @route   PUT /api/v1/activites/votes/update/:_id
-router.put("/votes/update/:_id", updateActivityVote);
+router.put("/:_id", updateActivity);
 
 module.exports = router;

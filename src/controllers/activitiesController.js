@@ -10,7 +10,7 @@ const getAllActivities = async (req, res) => {
 };
 
 // @desc    Endpoint for creating an activity
-// @route   POST /api/v1/activites/create
+// @route   POST /api/v1/activites
 // @access  public
 const saveActivity = async (req, res) => {
   const { name, category, description, votes } = req.body;
@@ -28,9 +28,9 @@ const saveActivity = async (req, res) => {
 };
 
 // @desc    Endpoint for updating the vote tally of an activity
-// @route   PUT /api/v1/activites/votes/update/:_id
+// @route   PUT /api/v1/activites/:_id
 // @access  public
-const updateActivityVote = async (req, res) => {
+const updateActivity = async (req, res) => {
   const { _id } = req.params;
   const { tally } = req.body;
   if (!tally || isNaN(tally)) {
@@ -61,4 +61,4 @@ const updateActivityVote = async (req, res) => {
   return res.json({ msg: "Vote tally updated!", activity });
 };
 
-module.exports = { getAllActivities, saveActivity, updateActivityVote };
+module.exports = { getAllActivities, saveActivity, updateActivity };
