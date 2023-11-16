@@ -7,7 +7,7 @@ const {
   updateActivity,
 } = require("../controllers/activitiesController");
 
-// @route   GET /api/v1/activites
+// @route   GET /api/v1/activities
 router.get("/", getAllActivities);
 
 // @route   POST /api/v1/activites
