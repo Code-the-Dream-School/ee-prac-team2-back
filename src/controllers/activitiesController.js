@@ -28,7 +28,7 @@ const saveActivity = async (req, res) => {
 };
 
 // @desc    Endpoint for updating the vote tally of an activity
-// @route   PUT /api/v1/activites/:_id
+// @route   PUT /api/v1/activities/:_id
 // @access  public
 const updateActivity = async (req, res) => {
   const { _id } = req.params;
