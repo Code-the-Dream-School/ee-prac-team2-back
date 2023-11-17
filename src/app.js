@@ -17,7 +17,7 @@ const { errorHandler, notFound } = require("./middleware/errorHandler");
 // middleware
 
 // we shall change the cors origin once the frontend is deployed
-app.use(cors({ origin: "http://localhost:4000", optionsSuccessStatus: 200 }));
+app.use(cors({ origin: process.env.ORIGIN, optionsSuccessStatus: 200 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(logger("dev"));
