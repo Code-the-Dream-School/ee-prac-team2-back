@@ -1,7 +1,7 @@
 const Activity = require("../models/Activity");
 
 // @desc    Endpoint for fetching all activities
-// @route   GET /api/v1/activites
+// @route   GET /api/v1/activities
 // @access  public
 const getAllActivities = async (req, res) => {
   const response = await Activity.find();
@@ -10,7 +10,7 @@ const getAllActivities = async (req, res) => {
 };
 
 // @desc    Endpoint for creating an activity
-// @route   POST /api/v1/activites
+// @route   POST /api/v1/activities
 // @access  public
 const saveActivity = async (req, res) => {
   const { name, category, description, votes } = req.body;
@@ -28,7 +28,7 @@ const saveActivity = async (req, res) => {
 };
 
 // @desc    Endpoint for updating the vote tally of an activity
-// @route   PUT /api/v1/activites/:_id
+// @route   PUT /api/v1/activities/:_id
 // @access  public
 const updateActivity = async (req, res) => {
   const { _id } = req.params;
