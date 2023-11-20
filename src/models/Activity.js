@@ -28,10 +28,6 @@ const activitySchema = new mongoose.Schema(
     },
     votes: {
       type: Number,
-      validate: {
-        validator: Number.isInteger,
-        message: "Vote must be an integer!",
-      },
       default: 0,
     },
   },
