@@ -9,6 +9,20 @@ const getAllActivities = async (req, res) => {
   return res.json({ count: response.length, activities: response });
 };
 
+// @desc    Endpoint for fetching a single activity
+// @route   GET /api/v1/activities/:_id
+// @access  public
+const getActivity = async (req, res) => {
+  const { _id } = req.params;
+  const activity = await Activity.findOne({_id});
+  if(!activity) {
+    res.status(404);
+    throw new Error(`Activity with ${_id} ID does not exist!`);
+  }
+
+  return res.json(activity);
+};
+
 // @desc    Endpoint for creating an activity
 // @route   POST /api/v1/activities
 // @access  public
@@ -26,6 +40,7 @@ const saveActivity = async (req, res) => {
   });
   return res.json({ msg: "Activity saved!", savedActivity });
 };
+
 
 // @desc    Endpoint for updating the vote tally of an activity
 // @route   PUT /api/v1/activities/:_id
@@ -60,4 +75,18 @@ const updateActivity = async (req, res) => {
   return res.json({ msg: "Activity updated!", updatedActivity });
 };
 
-module.exports = { getAllActivities, saveActivity, updateActivity };
+// @desc    Endpoint for deleting a single activity
+// @route   DELETE /api/v1/activities/:_id
+// @access  public
+const deleteActivity = async (req, res) => {
+  const { _id } = req.params;
+  const activity = await Activity.findOneAndDelete({_id});
+  if(!activity) {
+    res.status(404);
+    throw new Error(`Activity with ${_id} ID does not exist!`);
+  }
+
+  return res.json({ msg: `Successfully removed activity with ID: ${_id}` });
+};
+
+module.exports = { getAllActivities, getActivity, saveActivity, updateActivity, deleteActivity };
