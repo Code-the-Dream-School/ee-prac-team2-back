@@ -4,10 +4,12 @@ const app = express();
 const cors = require("cors");
 const favicon = require("express-favicon");
 const logger = require("morgan");
+const cookieParser = require("cookie-parser");
 
 // imports
 const testsRouter = require("./routes/testsRouter");
 const activitiesRouter = require("./routes/activitiesRouter");
+const authRouter = require("./routes/authRouter");
 
 const { errorHandler, notFound } = require("./middleware/errorHandler");
 
@@ -16,6 +18,7 @@ const { errorHandler, notFound } = require("./middleware/errorHandler");
 // we shall change the cors origin once the frontend is deployed
 app.use(cors({ origin: process.env.ORIGIN, optionsSuccessStatus: 200 }));
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(logger("dev"));
 app.use(express.static("public"));
@@ -24,6 +27,7 @@ app.use(favicon(path.join(__dirname, "/public/favicon.ico")));
 // routes
 app.use("/api/v1", testsRouter);
 app.use("/api/v1/activities", activitiesRouter);
+app.use("/api/v1/auth", authRouter);
 
 app.use(notFound);
 app.use(errorHandler);
