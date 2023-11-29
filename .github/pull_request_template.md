@@ -1,11 +1,11 @@
-### This PR resolves Issue
+### Attached Issue
+This PR resolves #0
 
 ## Change Summary
-
-- Add component \__a_
-- Update feature \__b_ to do \__c_ when \__d_
-- Fix bug when \__e_
+- ...
+- **EXAMPLE:** _Add component [A]_
+- **EXAMPLE:** _Update feature [B] to do [C] when [D]_
+- **EXAMPLE:** _Prevent behavior [E] from happening when [F]_
 
 ## I Had Difficulty With
-
-_I initially tried to implement this using our existing components, but ran into <these issues>, so I decided to add a third party component for this task._
+**EXAMPLE:** _I initially tried [Method A], but ran into [Problem B], so I decided to [Solution C]. Can you please help me figure out [Open Question D]_
