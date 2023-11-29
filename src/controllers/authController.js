@@ -18,12 +18,10 @@ const signup = async (req, res) => {
   const user = await User.create({ name, email, password });
   const token = user.createJWT();
   generateCookie({ res, token });
-  res
-    .status(201)
-    .json({
-      msg: "Signed up successfully!",
-      user: { ...user._doc, password: undefined },
-    });
+  res.status(201).json({
+    msg: "Signed up successfully!",
+    user: { ...user._doc, password: undefined },
+  });
 };
 
 module.exports = { signup };
