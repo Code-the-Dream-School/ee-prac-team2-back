@@ -10,6 +10,7 @@ const cookieParser = require("cookie-parser");
 const testsRouter = require("./routes/testsRouter");
 const activitiesRouter = require("./routes/activitiesRouter");
 const authRouter = require("./routes/authRouter");
+const votesRouter = require("./routes/votesRouter");
 
 const { errorHandler, notFound } = require("./middleware/errorHandler");
 
@@ -28,6 +29,7 @@ app.use(favicon(path.join(__dirname, "/public/favicon.ico")));
 app.use("/api/v1", testsRouter);
 app.use("/api/v1/activities", activitiesRouter);
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/votes", votesRouter);
 
 app.use(notFound);
 app.use(errorHandler);
