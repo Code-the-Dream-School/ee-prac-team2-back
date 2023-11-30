@@ -1,8 +1,8 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
-const generateCookie = require("../util/generateCookie");
+const generateCookie = require("../utils/generateCookie");
 
-// @desc    creates token, cookie and registers users
+// @desc    creates a 'token cookie' and adds a new user
 // @route   POST /api/v1/auth/signup
 // @access  public
 const signup = async (req, res) => {
@@ -19,7 +19,11 @@ const signup = async (req, res) => {
   const user = await User.create({ name, email, password });
   const token = user.createJWT();
   generateCookie({ res, token });
-  res.status(201).json({ msg: "Signed up successfully!", email: user.email });
+
+  res.status(201).json({
+    msg: "Signed up successfully!",
+    user: { ...user._doc, password: undefined },
+  });
 };
 
 // @desc    creates token and cookie for existing users
@@ -81,4 +85,4 @@ const getCurrentUser = async (req, res) => {
   }
 };
 
-module.exports = { login, signup, logout, getCurrentUser };
+module.exports = { signup, login, logout, getCurrentUser };
