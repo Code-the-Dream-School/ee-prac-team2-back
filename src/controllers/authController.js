@@ -1,5 +1,5 @@
 const User = require("../models/User");
-const generateCookie = require("../utilities/generateCookie");
+const generateCookie = require("../utils/generateCookie");
 
 // @desc    creates a 'token cookie' and creates a new user
 // @route   POST /api/v1/auth/signup
