@@ -6,7 +6,7 @@ const Activity = require("../models/Activity");
 const getAllActivities = async (req, res) => {
   const response = await Activity.find().populate({
     path: "vote",
-    populate: { path: "users" },
+    populate: { path: "voters" },
   });
 
   return res.json({ count: response.length, activities: response });

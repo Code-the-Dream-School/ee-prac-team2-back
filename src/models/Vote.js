@@ -6,7 +6,7 @@ const voteSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Activity",
     },
-    users: [
+    voters: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
