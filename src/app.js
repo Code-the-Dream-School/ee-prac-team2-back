@@ -12,8 +12,8 @@ const activitiesRouter = require("./routes/activitiesRouter");
 const authRouter = require("./routes/authRouter");
 const votesRouter = require("./routes/votesRouter");
 
-// api documentation: swagger
-const swaggerDocument = require("yamljs").load("./swagger.yaml");
+// api documentation: swagger-ui
+const swaggerDocument = require("yamljs").load("./src/swagger.yaml");
 const swaggerUi = require("swagger-ui-express");
 
 const { errorHandler, notFound } = require("./middleware/errorHandler");
@@ -37,7 +37,7 @@ app.get("/", (req, res) => {
   );
 });
 
-// app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use("/api/v1", testsRouter);
 app.use("/api/v1/activities", activitiesRouter);
