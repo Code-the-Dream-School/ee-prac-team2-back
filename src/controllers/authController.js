@@ -26,7 +26,7 @@ const signup = async (req, res) => {
   });
 };
 
-// @desc    creates token and cookie for existing users
+// @desc    creates a 'token cookie' for existing users
 // @route   POST /api/v1/auth/login
 // @access  public
 const login = async (req, res) => {
@@ -50,7 +50,7 @@ const login = async (req, res) => {
 
 // @desc    destroys authenticated user's cookie
 // @route   POST /api/v1/auth/logout
-// @access  authenticated users only
+// @access  signed in users only
 const logout = async (req, res) => {
   const token = req.cookies.jwt;
   if (!token) {
@@ -67,7 +67,7 @@ const logout = async (req, res) => {
 
 // @desc    get authenticated user's detail
 // @route   GET /api/v1/auth/getCurrentUser
-// @access  authenticated users only
+// @access  signed in users only
 const getCurrentUser = async (req, res) => {
   const token = req.cookies.jwt;
   if (!token) {
