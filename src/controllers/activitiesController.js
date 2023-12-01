@@ -4,13 +4,27 @@ const Activity = require("../models/Activity");
 // @route   GET /api/v1/activities
 // @access  public
 const getAllActivities = async (req, res) => {
-  const response = await Activity.find();
+  const response = await Activity.find().populate("votes");
 
   return res.json({ count: response.length, activities: response });
 };
 
+// @desc    Endpoint for fetching a single activity
+// @route   GET /api/v1/activities/:_id
+// @access  public
+const getActivity = async (req, res) => {
+  const { _id } = req.params;
+  const activity = await Activity.findOne({_id});
+  if(!activity) {
+    res.status(404);
+    throw new Error(`Activity with ${_id} ID does not exist!`);
+  }
+
+  return res.json(activity);
+};
+
 // @desc    Endpoint for creating an activity
-// @route   POST /api/v1/activities/create
+// @route   POST /api/v1/activities
 // @access  public
 const saveActivity = async (req, res) => {
   const { name, category, description, votes } = req.body;
@@ -27,38 +41,52 @@ const saveActivity = async (req, res) => {
   return res.json({ msg: "Activity saved!", savedActivity });
 };
 
+
 // @desc    Endpoint for updating the vote tally of an activity
 // @route   PUT /api/v1/activities/:_id
 // @access  public
 const updateActivity = async (req, res) => {
   const { _id } = req.params;
-  const { tally } = req.body;
-  if (!tally || isNaN(tally)) {
+  const { name, description, category } = req.body;
+  if (!name) {
     res.status(400);
-    throw new Error("An integer vote tally value must be provided!");
-  } else if (tally !== 1 && tally !== -1) {
+    throw new Error("New activity name must be provided!");
+  } else if (!category) {
     res.status(400);
-    throw new Error(
-      "Provide 1 to increase, and -1 to decrease the vote tally!"
-    );
+    throw new Error("New activity category must be provided!");
   }
 
-  const activity = await Activity.findOne({ _id });
-  if (activity) {
-    let vote = activity.votes;
-    if (vote > 0 || tally === 1) {
-      activity.votes = vote + tally;
-      await activity.save();
-    } else {
-      res.status(400);
-      throw new Error("Vote tally cannot be lowered than 0!");
-    }
-  } else {
+  const newActivityInfo = {
+    name,
+    description,
+    category,
+  };
+
+  const updatedActivity = await Activity.findOneAndUpdate(
+    { _id },
+    newActivityInfo,
+    { new: true, runValidators: true }
+  );
+  if (!updatedActivity) {
     res.status(404);
     throw new Error(`Activity with ${_id} ID does not exist!`);
   }
 
-  return res.json({ msg: "Vote tally updated!", activity });
+  return res.json({ msg: "Activity updated!", updatedActivity });
 };
 
-module.exports = { getAllActivities, saveActivity, updateActivity };
+// @desc    Endpoint for deleting a single activity
+// @route   DELETE /api/v1/activities/:_id
+// @access  public
+const deleteActivity = async (req, res) => {
+  const { _id } = req.params;
+  const activity = await Activity.findOneAndDelete({_id});
+  if(!activity) {
+    res.status(404);
+    throw new Error(`Activity with ${_id} ID does not exist!`);
+  }
+
+  return res.json({ msg: `Successfully removed activity with ID: ${_id}` });
+};
+
+module.exports = { getAllActivities, getActivity, saveActivity, updateActivity, deleteActivity };
