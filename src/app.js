@@ -8,8 +8,10 @@ const logger = require("morgan");
 // imports
 const testsRouter = require("./routes/testsRouter");
 const activitiesRouter = require("./routes/activitiesRouter");
+const votesRouter = require("./routes/votesRouter");
+
 // api documentation: swagger
-// const swaggerDocument = require("yamljs").load("./swagger.yaml");
+const swaggerDocument = require("yamljs").load("./swagger.yaml");
 const swaggerUi = require("swagger-ui-express");
 
 const { errorHandler, notFound } = require("./middleware/errorHandler");
@@ -36,6 +38,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/v1", testsRouter);
 app.use("/api/v1/activities", activitiesRouter);
+app.use("/api/v1/votes", votesRouter);
 
 app.use(notFound);
 app.use(errorHandler);
