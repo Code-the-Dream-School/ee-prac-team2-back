@@ -1,3 +1,4 @@
+const Vote = require("./Vote");
 const mongoose = require("mongoose");
 
 const activitySchema = new mongoose.Schema(
@@ -22,16 +23,22 @@ const activitySchema = new mongoose.Schema(
           "holiday",
           "cultural",
         ],
-        message: "Invalid category type!",
+        message:
+          "Invalid category type! Choose from ['relaxing', 'creative', 'social', 'educational', 'holiday', 'cultural']",
       },
       required: [true, "please provide a valid category!"],
     },
-    votes: {
-      type: Number,
-      default: 0,
-    },
+    vote: { type: mongoose.Schema.Types.ObjectId, ref: "Vote" },
   },
   { timestamps: true }
 );
+
+// Middleware to create a vote set to 0 before an activity is saved
+activitySchema.pre("save", async function (next) {
+  const newVote = new Vote({ activityID: this._id });
+  await newVote.save();
+  this.vote = newVote._id;
+  next();
+});
 
 module.exports = mongoose.model("Activity", activitySchema);

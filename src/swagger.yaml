@@ -1,0 +1,286 @@
+openapi: 3.0.0
+info:
+  title: date night
+  contact: {}
+  version: "1.0"
+servers:
+  - url: https://date-night-4gb5.onrender.com/
+    variables: {}
+paths:
+  /api/v1/activities:
+    get:
+      tags:
+        - Activities
+      summary: Get All Activities
+      description: Endpoint for viewing all the activities
+      operationId: GetAllActivities
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+    post:
+      tags:
+        - Activities
+      summary: Create Activity
+      description: Endpoint for creating an activity
+      operationId: CreateActivity
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/CreateActivityRequest"
+                - example:
+                    name: Soccer Day
+                    category: social
+                    description: A sports tournament event.
+            example:
+              name: Soccer Day
+              category: social
+              description: A sports tournament event.
+        required: true
+      responses:
+        "201":
+          description: ""
+          headers: {}
+      deprecated: false
+  /api/v1/activities/{activityID}:
+    parameters:
+      - in: path
+        name: activityID
+        schema:
+          type: string
+        required: true
+        description: The activity resource id
+    get:
+      tags:
+        - Activities
+      summary: Get Activity
+      description: Endpoint for fetching a single activity. Activity ID must be provided as a URL param!
+      operationId: GetActivity
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+    delete:
+      tags:
+        - Activities
+      summary: Delete Activity
+      description: Endpoint for deleting an activity. Activity ID must be provided as a URL param!
+      operationId: DeleteActivity
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+    put:
+      tags:
+        - Activities
+      summary: Update Activity
+      description: Endpoint for updating an activity. Activity ID must be provided as a URL param!
+      operationId: UpdateActivity
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/UpdateActivityRequest"
+                - example:
+                    name: Hiking
+                    category: relaxing
+            example:
+              name: Hiking
+              category: relaxing
+        required: true
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+  /api/v1/votes/{activityID}:
+    parameters:
+      - in: path
+        name: activityID
+        schema:
+          type: string
+        required: true
+        description: The activity resource id
+    put:
+      tags:
+        - Vote
+      summary: Update Activity Vote
+      description: Endpoint for updating (increase/decrease) vote count of an activity. A signed in user is required in order to access this route!
+      operationId: UpdateActivityVote
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+      security: []
+  /api/v1/auth/signup:
+    post:
+      tags:
+        - Auth
+      summary: Signup User
+      description: Endpoint for creating a new user (signup). After a successful signup a json web token stored in a HTTP only cookie is sent to the client. This token contains the signed in user's ID as its payload, and is used for authorization/verification in the server. The cookie is automatically sent to the server on every subsequent request.
+      operationId: SignupUser
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/SignupUserRequest"
+                - example:
+                    name: Morez
+                    email: example@email.com
+                    password: strongPass123
+            example:
+              name: Morez
+              email: example@email.com
+              password: strongPass123
+        required: true
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+  /api/v1/auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Login User
+      description: Endpoint for creating a new json web token with the verified user's id as its payload stored in a HTTP only cookie which gets stored in the client side machine. The cookie is automatically sent to the server on every subsequent request.
+      operationId: LoginUser
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/LoginUserRequest"
+                - example:
+                    email: example@email.com
+                    password: strongPass123
+            example:
+              email: example@email.com
+              password: strongPass123
+        required: true
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+  /api/v1/auth/logout:
+    post:
+      tags:
+        - Auth
+      summary: Logout User
+      description: Endpoint for creating a new json web token with the verified user's id as its payload stored in a HTTP only cookie which gets stored in the client side machine. The cookie is automatically sent to the server on every subsequent request.
+      operationId: LogoutUser
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+  /api/v1/auth/getCurrentUser:
+    get:
+      tags:
+        - Auth
+      summary: Get Current User
+      description: >-
+        Returns authenticated user's information
+        An authenticated user's token required
+      operationId: GetCurrentUser
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+components:
+  schemas:
+    CreateActivityRequest:
+      title: CreateActivityRequest
+      required:
+        - name
+        - category
+        - description
+      type: object
+      properties:
+        name:
+          type: string
+        category:
+          type: string
+        description:
+          type: string
+      example:
+        name: Soccer Day
+        category: social
+        description: A sports tournament event.
+    UpdateActivityRequest:
+      title: UpdateActivityRequest
+      required:
+        - name
+        - category
+      type: object
+      properties:
+        name:
+          type: string
+        category:
+          type: string
+      example:
+        name: Hiking
+        category: relaxing
+    SignupUserRequest:
+      title: SignupUserRequest
+      required:
+        - name
+        - email
+        - password
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        name: Morez
+        email: example@email.com
+        password: strongPass123
+    LoginUserRequest:
+      title: LoginUserRequest
+      required:
+        - email
+        - password
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        email: example@email.com
+        password: strongPass123
+tags:
+  - name: Activities
+    description: ""
+  - name: Vote
+    description: ""
+  - name: Auth
+    description: ""
