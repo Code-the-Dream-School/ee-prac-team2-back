@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const generateCookie = require("../utils/generateCookie");
 
-// @desc    creates a 'token cookie' and adds a new user
+// @desc    creates a 'token cookie' and creates a new user
 // @route   POST /api/v1/auth/signup
 // @access  public
 const signup = async (req, res) => {
