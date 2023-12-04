@@ -41,4 +41,9 @@ userSchema.methods.createJWT = function () {
   });
 };
 
+// A User model method for validating inputted user password
+userSchema.methods.comparePassword = async function (inputtedPassword) {
+  return await bcrypt.compare(inputtedPassword, this.password);
+};
+
 module.exports = mongoose.model("User", userSchema);
