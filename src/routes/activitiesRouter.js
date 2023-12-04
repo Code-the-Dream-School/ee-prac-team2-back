@@ -7,6 +7,7 @@ const {
   updateActivity,
   getActivity,
   deleteActivity
+  updateActivity
 } = require("../controllers/activitiesController");
 
 // @route   GET /api/v1/activities
