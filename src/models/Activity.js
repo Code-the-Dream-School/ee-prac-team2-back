@@ -28,16 +28,16 @@ const activitySchema = new mongoose.Schema(
       },
       required: [true, "please provide a valid category!"],
     },
-    votes: { type: mongoose.Schema.Types.ObjectId, ref: "Vote" },
+    vote: { type: mongoose.Schema.Types.ObjectId, ref: "Vote" },
   },
   { timestamps: true }
 );
 
 // Middleware to create a vote set to 0 before an activity is saved
 activitySchema.pre("save", async function (next) {
-  const newVote = new Vote({ activity: this._id });
+  const newVote = new Vote({ activityID: this._id });
   await newVote.save();
-  this.votes = newVote._id;
+  this.vote = newVote._id;
   next();
 });
 
