@@ -7,6 +7,112 @@ servers:
   - url: https://date-night-4gb5.onrender.com/
     variables: {}
 paths:
+/api/v1/groups:
+    get:
+      tags:
+        - Groups
+      summary: Get All Groups
+      description: Endpoint for viewing all the groups that the current user belongs to.
+      operationId: GetAllGroups
+      parameters:
+        - name: memberType
+          in: query
+          required: false
+          description: Filter events by membership type (owner for owned groups, member for non-owned groups, absent for all groups)
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+    post:
+      tags:
+        - Groups
+      summary: Create Group
+      description: Endpoint for creating a group
+      operationId: CreateGroup
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/CreateGroupRequest"
+                - example:
+                    name: "The Fellowship of the Ring"
+                    description: "One does not simply walk into Mordor"
+                    memberEmails: ["frodo@theshire.com", "samwise@theshire.com", "merry@theshire.com", "foolofatook@theshire.com", "legolas@mirkwood.com", "gimli@sonofgloin.com", "boromir@gondor.com", "aragorn@dunedin.com"]
+            example:
+              name: "Stark Family"
+              description: "Winter is coming"
+              memberEmails: ["catelyn@winterfell.com", "robb@winterfell.com", "sansa@winterfell.com", "arya@winterfell.com", "bran@winterfell.com", "rickon@winterfell.com"]
+        required: true
+      responses:
+        "201":
+          description: ""
+          headers: {}
+      deprecated: false
+  /api/v1/groups/{groupID}:
+    parameters:
+      - in: path
+        name: groupID
+        schema:
+          type: string
+        required: true
+        description: The group resource id
+    get:
+      tags:
+        - Groups
+      summary: Get Group
+      description: Endpoint for viewing a single group.
+      operationId: GetGroup
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+    patch:
+      tags:
+        - Groups
+      summary: Update Group
+      description: Endpoint for updating a group. Group ID must be provided as a URL param!
+      operationId: UpdateGroup
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/UpdateGroupRequest"
+                - example:
+                    name: "Living Starks"
+                    description: "Spoiler Alert"
+                    memberEmails: ["sansa@winterfell.com", "KING.BRAN@kingslanding.com", "arya@westofwesteros.com"]
+            example:
+              name: "Look At Me, This Is Our Group Name Now"
+            
+        required: true
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+    delete:
+      tags:
+        - Groups
+      summary: Delete Group
+      description: Endpoint for deleting a group. Using this route will not only delete the event, but also remove all its associated events.
+      operationId: DeleteGroup
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
   /api/v1/activities:
     get:
       tags:
