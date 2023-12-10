@@ -27,15 +27,13 @@ const getActivity = async (req, res) => {
 
 // @desc    Endpoint for creating an event activity
 // @route   POST /api/v1/activities
+//          POST /api/v1/activities?dummy=true
 // @access  public
 const saveActivity = async (req, res) => {
   const { eventID, activity, type } = req.body;
-  if (!eventID) {
-    res.status(400);
-    throw new Error(
-      "A valid 'eventID' value must be provided in order to link the activity to its event!"
-    );
-  } else if (!activity) {
+  const { dummy } = req.query;
+
+  if (!activity) {
     res.status(400);
     throw new Error(
       "An 'activity' value containing a brief description for the activity must be provided!"
@@ -44,18 +42,36 @@ const saveActivity = async (req, res) => {
     res.status(400);
     throw new Error("A 'type' value must be provided!");
   }
-  const savedActivity = await EventActivity.create({
-    eventID,
-    activity,
-    type,
-  });
 
-  await Event.updateOne(
-    { _id: savedActivity.eventID },
-    { $push: { activities: savedActivity._id } }
-  );
+  if (dummy) {
+    const savedActivity = await Activity.create({
+      activity,
+      type,
+    });
 
-  return res.json({ msg: "Activity saved!", savedActivity });
+    return res.json({ msg: "Activity saved as dummy data!", savedActivity });
+  } else {
+    if (!eventID) {
+      res.status(400);
+      throw new Error(
+        "A valid 'eventID' value must be provided in order to link the activity to its event!"
+      );
+    }
+    const savedActivity = await EventActivity.create({
+      eventID,
+      activity,
+      type,
+    });
+
+    await Event.updateOne(
+      { _id: savedActivity.eventID },
+      { $push: { activities: savedActivity._id } }
+    );
+    return res.json({
+      msg: `Activity saved in event with ID ${eventID}!`,
+      savedActivity,
+    });
+  }
 };
 
 // @desc    Endpoint for updating an event activity

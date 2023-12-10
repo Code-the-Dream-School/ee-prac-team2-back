@@ -3,12 +3,16 @@ const Event = require("../models/Event");
 const EventActivity = require("../models/EventActivity");
 
 // @desc    Endpoint for fetching all events
-// @route   GET /api/v1/events
+// @routes  GET /api/v1/events
+//          GET /api/v1/events?host=true
 // @access  signed in users only
 const getAllEvents = async (req, res) => {
   const { userID } = req.user;
+  const { host } = req.query;
 
-  const response = await Event.find({ host: userID }).populate("activities");
+  const findCriteria = host ? { host: userID } : {};
+
+  const response = await Event.find(findCriteria).populate("activities");
 
   return res.json({ count: response.length, events: response });
 };
