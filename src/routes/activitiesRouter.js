@@ -5,9 +5,12 @@ const {
   getAllActivities,
   saveActivity,
   updateActivity,
+  updateActivityVote,
   getActivity,
-  deleteActivity
+  deleteActivity,
 } = require("../controllers/activitiesController");
+
+const { authenticateUser } = require("../middleware/authHandler");
 
 // @route   GET /api/v1/activities
 router.get("/", getAllActivities);
@@ -23,5 +26,8 @@ router.put("/:_id", updateActivity);
 
 // @route   DELETE /api/v1/activities/:_id
 router.delete("/:_id", deleteActivity);
+
+// @route   PUT /api/v1/activities/:_id/votes
+router.put("/:_id/votes", authenticateUser, updateActivityVote);
 
 module.exports = router;

@@ -1,13 +1,12 @@
 const Activity = require("../models/Activity");
+const Event = require("../models/Event");
+const EventActivity = require("../models/EventActivity");
 
-// @desc    Endpoint for fetching all activities
+// @desc    Endpoint for fetching pre-saved activities
 // @route   GET /api/v1/activities
 // @access  public
 const getAllActivities = async (req, res) => {
-  const response = await Activity.find().populate({
-    path: "vote",
-    populate: { path: "voters" },
-  });
+  const response = await Activity.find();
 
   return res.json({ count: response.length, activities: response });
 };
@@ -26,45 +25,61 @@ const getActivity = async (req, res) => {
   return res.json(activity);
 };
 
-// @desc    Endpoint for creating an activity
+// @desc    Endpoint for creating an event activity
 // @route   POST /api/v1/activities
 // @access  public
 const saveActivity = async (req, res) => {
-  const { name, category, description, votes } = req.body;
-  if (!name || !category) {
+  const { eventID, activity, type } = req.body;
+  if (!eventID) {
     res.status(400);
-    throw new Error("Activity name and category must be provided!");
+    throw new Error(
+      "A valid 'eventID' value must be provided in order to link the activity to its event!"
+    );
+  } else if (!activity) {
+    res.status(400);
+    throw new Error(
+      "An 'activity' value containing a brief description for the activity must be provided!"
+    );
+  } else if (!type) {
+    res.status(400);
+    throw new Error("A 'type' value must be provided!");
   }
-  const savedActivity = await Activity.create({
-    name,
-    category,
-    description,
-    votes,
+  const savedActivity = await EventActivity.create({
+    eventID,
+    activity,
+    type,
   });
+
+  await Event.updateOne(
+    { _id: savedActivity.eventID },
+    { $push: { activities: savedActivity._id } }
+  );
+
   return res.json({ msg: "Activity saved!", savedActivity });
 };
 
-// @desc    Endpoint for updating the vote tally of an activity
+// @desc    Endpoint for updating an event activity
 // @route   PUT /api/v1/activities/:_id
 // @access  public
 const updateActivity = async (req, res) => {
   const { _id } = req.params;
-  const { name, description, category } = req.body;
-  if (!name) {
+  const { activity, type } = req.body;
+  if (!activity) {
     res.status(400);
-    throw new Error("New activity name must be provided!");
-  } else if (!category) {
+    throw new Error(
+      "New 'activity' value containing a brief description for the activity must be provided!"
+    );
+  } else if (!type) {
     res.status(400);
-    throw new Error("New activity category must be provided!");
+    throw new Error("New 'type' value must be provided!");
   }
 
   const newActivityInfo = {
-    name,
-    description,
-    category,
+    activity,
+    type,
   };
 
-  const updatedActivity = await Activity.findOneAndUpdate(
+  const updatedActivity = await EventActivity.findOneAndUpdate(
     { _id },
     newActivityInfo,
     { new: true, runValidators: true }
@@ -77,18 +92,48 @@ const updateActivity = async (req, res) => {
   return res.json({ msg: "Activity updated!", updatedActivity });
 };
 
-// @desc    Endpoint for deleting a single activity
+// @desc    Endpoint for deleting an event activity
 // @route   DELETE /api/v1/activities/:_id
 // @access  public
 const deleteActivity = async (req, res) => {
   const { _id } = req.params;
-  const activity = await Activity.findOneAndDelete({ _id });
+  const activity = await EventActivity.findOneAndDelete({ _id });
   if (!activity) {
     res.status(404);
     throw new Error(`Activity with ${_id} ID does not exist!`);
   }
 
+  await Event.updateOne(
+    { _id: activity.eventID },
+    { $pull: { activities: activity._id } }
+  );
+
   return res.json({ msg: `Successfully removed activity with ID: ${_id}` });
+};
+
+// @desc    Endpoint for updating the vote tally of an event activity
+// @route   PUT /api/v1/activities/:_id/votes
+// @access  signed in users only
+const updateActivityVote = async (req, res) => {
+  const { _id } = req.params;
+  const { userID } = req.user;
+  let activity = await EventActivity.findOne({ _id });
+  if (activity) {
+    if (activity.votes.includes(userID)) {
+      activity.votes.pull(userID);
+    } else {
+      activity.votes.push(userID);
+    }
+    await activity.save();
+  } else {
+    res.status(404);
+    throw new Error(`Activity with ${_id} ID does not exist!`);
+  }
+
+  return res.json({
+    msg: "Vote tally updated!",
+    totalVotes: activity.votes.length,
+  });
 };
 
 module.exports = {
@@ -97,4 +142,5 @@ module.exports = {
   saveActivity,
   updateActivity,
   deleteActivity,
+  updateActivityVote,
 };

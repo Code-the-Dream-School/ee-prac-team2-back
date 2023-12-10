@@ -9,8 +9,10 @@ const cookieParser = require("cookie-parser");
 // imports
 const testsRouter = require("./routes/testsRouter");
 const activitiesRouter = require("./routes/activitiesRouter");
+const eventsRouter = require("./routes/eventsRouter");
 const authRouter = require("./routes/authRouter");
-const votesRouter = require("./routes/votesRouter");
+
+const { authenticateUser } = require("./middleware/authHandler");
 
 // api documentation: swagger-ui
 const swaggerDocument = require("yamljs").load("./src/swagger.yaml");
@@ -40,9 +42,9 @@ app.get("/", (req, res) => {
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use("/api/v1", testsRouter);
-app.use("/api/v1/activities", activitiesRouter);
 app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/votes", votesRouter);
+app.use("/api/v1/events", authenticateUser, eventsRouter);
+app.use("/api/v1/activities", activitiesRouter);
 
 app.use(notFound);
 app.use(errorHandler);
