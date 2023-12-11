@@ -24,9 +24,18 @@ const getEvent = async (req, res) => {
   const { _id } = req.params;
 
   const event = await Event.findOne({ _id })
-    .populate("activities")
-    .populate("participants")
-    .populate("host");
+    .populate({
+      path: "activities",
+      select: "_id eventID activity type votes",
+    })
+    .populate({
+      path: "participants",
+      select: "_id name email",
+    })
+    .populate({
+      path: "host",
+      select: "_id name email",
+    });
   if (!event) {
     res.status(404);
     throw new Error(`Event with ${_id} ID does not exist!`);
