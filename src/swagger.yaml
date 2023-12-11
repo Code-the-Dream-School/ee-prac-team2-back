@@ -12,7 +12,7 @@ paths:
       tags:
         - Activities
       summary: Get All Activities
-      description: Endpoint for viewing all the activities
+      description: Endpoint for viewing all the activities. This endpoint returns a combination of activities, a total of 6 randomzied activity documents (3 from bored API and 3 from hard coded activities) will be returned.
       operationId: GetAllActivities
       parameters: []
       responses:
@@ -26,7 +26,13 @@ paths:
       summary: Create Activity
       description: Endpoint for creating an activity
       operationId: CreateActivity
-      parameters: []
+      parameters:
+        - name: dummy
+          in: query
+          required: false
+          description: With this query set to true, the activity resource will be saved in the dummy data model of activities (Activity). But if set to false or absent, an 'eventID' value will be required in the POST request body and the activity resource will be saved in the EventActivity data model.
+          schema:
+            type: boolean
       requestBody:
         description: ""
         content:
@@ -35,13 +41,13 @@ paths:
               allOf:
                 - $ref: "#/components/schemas/CreateActivityRequest"
                 - example:
-                    name: Soccer Day
-                    category: social
-                    description: A sports tournament event.
+                    eventID: 6574c51581ee2c66d25177c9
+                    activity: A volleyball tournament event
+                    type: sports.
             example:
-              name: Soccer Day
-              category: social
-              description: A sports tournament event.
+              eventID: 6574c51581ee2c66d25177c9
+              activity: A volleyball tournament event
+              type: sports.
         required: true
       responses:
         "201":
@@ -71,9 +77,9 @@ paths:
     delete:
       tags:
         - Activities
-      summary: Delete Activity
-      description: Endpoint for deleting an activity. Activity ID must be provided as a URL param!
-      operationId: DeleteActivity
+      summary: Delete Event Activity
+      description: Endpoint for deleting an event activity. Activity ID must be provided as a URL param!
+      operationId: DeleteEventActivity
       parameters: []
       responses:
         "200":
@@ -83,9 +89,9 @@ paths:
     put:
       tags:
         - Activities
-      summary: Update Activity
-      description: Endpoint for updating an activity. Activity ID must be provided as a URL param!
-      operationId: UpdateActivity
+      summary: Update Event Activity
+      description: Endpoint for updating an event activity. Activity ID must be provided as a URL param!
+      operationId: UpdateEventActivity
       parameters: []
       requestBody:
         description: ""
@@ -106,7 +112,7 @@ paths:
           description: ""
           headers: {}
       deprecated: false
-  /api/v1/votes/{activityID}:
+  /api/v1/activities/{activityID}/votes:
     parameters:
       - in: path
         name: activityID
@@ -116,10 +122,10 @@ paths:
         description: The activity resource id
     put:
       tags:
-        - Vote
-      summary: Update Activity Vote
-      description: Endpoint for updating (increase/decrease) vote count of an activity. A signed in user is required in order to access this route!
-      operationId: UpdateActivityVote
+        - Activities
+      summary: Update Event Activity Vote
+      description: Endpoint for updating (increase/decrease) vote count of an event activity. A signed in user is required in order to access this route!
+      operationId: UpdateEventActivityVote
       parameters: []
       responses:
         "200":
@@ -216,35 +222,35 @@ components:
     CreateActivityRequest:
       title: CreateActivityRequest
       required:
-        - name
-        - category
-        - description
+        - eventID
+        - activity
+        - type
       type: object
       properties:
-        name:
+        eventID:
           type: string
-        category:
+        activity:
           type: string
-        description:
+        type:
           type: string
       example:
-        name: Soccer Day
-        category: social
-        description: A sports tournament event.
+        eventID: 6574c51581ee2c66d25177c9
+        activity: A volleyball tournament event
+        type: sports.
     UpdateActivityRequest:
       title: UpdateActivityRequest
       required:
-        - name
-        - category
+        - activity
+        - type
       type: object
       properties:
-        name:
+        activity:
           type: string
-        category:
+        type:
           type: string
       example:
-        name: Hiking
-        category: relaxing
+        activity: Hiking
+        type: relaxing
     SignupUserRequest:
       title: SignupUserRequest
       required:
