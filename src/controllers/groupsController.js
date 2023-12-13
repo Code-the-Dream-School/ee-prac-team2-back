@@ -70,6 +70,15 @@ const getGroup = async (req, res) => {
     throw new Error(`Group with ${_id} ID does not exist!`);
   }
 
+  if (
+    group.owner._id !== req.user.userID &&
+    !group.members.some((member) => member._id === req.user.userID)
+  ) {
+    console.log("ownerID:", group.owner._id);
+    console.log(group.members.some((member) => member._id === req.user.userID));
+    throw new Error("You do not have permission to access this group.");
+  }
+
   return res.json(group);
 };
 
