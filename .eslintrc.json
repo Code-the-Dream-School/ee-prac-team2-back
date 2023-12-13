@@ -7,16 +7,19 @@
     },
     "extends": [
         "eslint:recommended",
-        "eslint-config-standard",
-        "eslint-config-semistandard",
         "plugin:import/recommended",
         "plugin:n/recommended",
-        "plugin:promise/recommended"
+        "plugin:promise/recommended",
+        "airbnb-base",
+        // turns off all rules that are unnecessary or might conflict with Prettier.
+        "plugin:prettier/recommended"
     ],
     "parserOptions": {
         "ecmaVersion": "latest"
     },
     "rules": {
+        // don't highlight violations here, Prettier will silently fix them
+        "prettier/prettier": "off",
         // seems only relevant to publishing on NPM
         "n/no-unpublished-require": "off"
     },
