@@ -8,7 +8,7 @@
     "dev": "nodemon src/server.js",
     "test": "mocha",
     "lint": "eslint . --ext .ts,.js, --fix --ignore-path .gitignore",
-    "start": "node src/server.js"
+    "start": "node src/server.js",
     "format": "prettier . --write --ignore-path .gitignore && git update-index --again",
   "lint-staged": {
     "*.{css,md,json}": [
