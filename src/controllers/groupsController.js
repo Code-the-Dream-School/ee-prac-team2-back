@@ -1,5 +1,5 @@
-const Group = require("../models/Group");
-const User = require("../models/User");
+const Group = require('../models/Group');
+const User = require('../models/User');
 
 // @desc    Endpoint for fetching all groups the user is part of (as owner and member)
 // @route   GET /api/v1/groups
@@ -9,35 +9,35 @@ const getAllGroups = async (req, res) => {
   const { memberType } = req.query;
 
   let queryObject = {};
-  if (memberType === "owner") {
+  if (memberType === 'owner') {
     queryObject.owner = req.user.userID;
   }
-  if (memberType === "member") {
+  if (memberType === 'member') {
     queryObject.members = { $in: [req.user.userID] };
   }
   if (!memberType) {
     queryObject = {
-      $or: [{ owner: req.user.userID }, { members: req.user.userID }],
+      $or: [{ owner: req.user.userID }, { members: req.user.userID }]
     };
   }
 
-  let result = await Group.find(queryObject)
+  const result = await Group.find(queryObject)
     .populate({
-      path: "owner",
-      select: "email name",
-      model: User,
+      path: 'owner',
+      select: 'email name',
+      model: User
     })
     .populate({
-      path: "members",
-      select: "email name",
-      model: User,
+      path: 'members',
+      select: 'email name',
+      model: User
     })
     // .populate({
-    //   path: "events",
+    //   path: "groupEvents",
     //   select: "_id name",
     //   model: Event
     // })
-    .exec(); //.populate("events");
+    .exec();
 
   return res.json({ count: result.length, groups: result });
 };
@@ -49,24 +49,33 @@ const getGroup = async (req, res) => {
   const { _id } = req.params;
   const group = await Group.findOne({ _id })
     .populate({
-      path: "owner",
-      select: "email name",
-      model: User,
+      path: 'owner',
+      select: 'email name',
+      model: User
     })
     .populate({
-      path: "members",
-      select: "email name",
-      model: User,
+      path: 'members',
+      select: 'email name',
+      model: User
     })
     // .populate({
-    //   path: "events",
-    //   select: "_id name",
+    //   path: "groupEvents",
+    //   select: "_id name description eventDateTime",
     //   model: Event
     // })
     .exec();
   if (!group) {
     res.status(404);
     throw new Error(`Group with ${_id} ID does not exist!`);
+  }
+
+  if (
+    group.owner._id !== req.user.userID &&
+    !group.members.some((member) => member._id === req.user.userID)
+  ) {
+    console.log('ownerID:', group.owner._id);
+    console.log(group.members.some((member) => member._id === req.user.userID));
+    throw new Error('You do not have permission to access this group.');
   }
 
   return res.json(group);
@@ -81,7 +90,7 @@ const createGroup = async (req, res) => {
   // Find all users with matching emails
   const foundUsers = await User.find(
     { email: { $in: memberEmails } },
-    "_id email"
+    '_id email'
   );
 
   // Get all of the memberEmails that exist in the User database
@@ -99,10 +108,10 @@ const createGroup = async (req, res) => {
     groupName,
     description,
     owner: req.user.userID,
-    members: memberIDs,
+    members: memberIDs
   });
 
-  let msg = "Group successfully created";
+  let msg = 'Group successfully created';
   if (missingEmails?.length > 0) {
     msg += ` but the following users could not be added: ${missingEmails}`;
   }
@@ -112,21 +121,21 @@ const createGroup = async (req, res) => {
 };
 
 // @desc    Endpoint for updating a group
-// @route   PATCH /api/v1/groups/:id
+// @route   PUT /api/v1/groups/:id
 // @access  group owner only
 const updateGroup = async (req, res) => {
   const { _id } = req.params;
   const { groupName, description, memberEmails } = req.body;
 
-  if (groupName === "") {
+  if (!groupName) {
     res.status(400);
-    throw new Error("New group name must be provided!");
+    throw new Error('New group name must be provided!');
   }
 
   // Find all users with matching emails
   const foundUsers = await User.find(
     { email: { $in: memberEmails } },
-    "_id email"
+    '_id email'
   );
 
   // Get all of the memberEmails that exist in the User database
@@ -149,13 +158,13 @@ const updateGroup = async (req, res) => {
   if (!updatedGroup) {
     res.status(400);
     throw new Error(
-      `An error occurred: the group does not exist or you do not have permission to perform this action.`
+      'An error occurred: the group does not exist or you do not have permission to perform this action.'
     );
   }
 
-  let msg = "";
+  let msg = '';
   if (groupName || description || (memberEmails && !missingEmails)) {
-    msg = "Group successfully updated";
+    msg = 'Group successfully updated';
     if (missingEmails?.length > 0) {
       msg += ` but the following user(s) could not be added: ${missingEmails}`;
     }
@@ -176,7 +185,7 @@ const deleteGroup = async (req, res) => {
   if (!group) {
     res.status(400);
     throw new Error(
-      `An error occurred: the group does not exist or you do not have permission to perform this action.`
+      'An error occurred: the group does not exist or you do not have permission to perform this action.'
     );
   }
 
@@ -188,5 +197,5 @@ module.exports = {
   getGroup,
   createGroup,
   updateGroup,
-  deleteGroup,
+  deleteGroup
 };
