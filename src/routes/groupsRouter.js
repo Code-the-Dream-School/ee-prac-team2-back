@@ -18,8 +18,8 @@ router.get("/:_id", getGroup);
 // @route   POST /api/v1/groups
 router.post("/", createGroup);
 
-// @route   PATCH /api/v1/groups/:_id
-router.patch("/:_id", updateGroup);
+// @route   PUT /api/v1/groups/:_id
+router.put("/:_id", updateGroup);
 
 // @route   DELETE /api/v1/groups/:_id
 router.delete("/:_id", deleteGroup);

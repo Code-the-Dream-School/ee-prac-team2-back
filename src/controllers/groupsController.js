@@ -1,5 +1,6 @@
 const Group = require("../models/Group");
 const User = require("../models/User");
+const Event = require("../models/Event");
 
 // @desc    Endpoint for fetching all groups the user is part of (as owner and member)
 // @route   GET /api/v1/groups
@@ -21,7 +22,7 @@ const getAllGroups = async (req, res) => {
     };
   }
 
-  let result = await Group.find(queryObject)
+  const result = await Group.find(queryObject)
     .populate({
       path: "owner",
       select: "email name",
@@ -32,12 +33,12 @@ const getAllGroups = async (req, res) => {
       select: "email name",
       model: User,
     })
-    // .populate({
-    //   path: "events",
-    //   select: "_id name",
-    //   model: Event
-    // })
-    .exec(); //.populate("events");
+    .populate({
+      path: "groupEvents",
+      select: "_id name description eventDateTime",
+      model: Event,
+    })
+    .exec();
 
   return res.json({ count: result.length, groups: result });
 };
@@ -58,11 +59,11 @@ const getGroup = async (req, res) => {
       select: "email name",
       model: User,
     })
-    // .populate({
-    //   path: "events",
-    //   select: "_id name",
-    //   model: Event
-    // })
+    .populate({
+      path: "groupEvents",
+      select: "_id name description eventDateTime",
+      model: Event,
+    })
     .exec();
   if (!group) {
     res.status(404);
@@ -112,13 +113,13 @@ const createGroup = async (req, res) => {
 };
 
 // @desc    Endpoint for updating a group
-// @route   PATCH /api/v1/groups/:id
+// @route   PUT /api/v1/groups/:id
 // @access  group owner only
 const updateGroup = async (req, res) => {
   const { _id } = req.params;
   const { groupName, description, memberEmails } = req.body;
 
-  if (groupName === "") {
+  if (!groupName) {
     res.status(400);
     throw new Error("New group name must be provided!");
   }
@@ -149,7 +150,7 @@ const updateGroup = async (req, res) => {
   if (!updatedGroup) {
     res.status(400);
     throw new Error(
-      `An error occurred: the group does not exist or you do not have permission to perform this action.`
+      "An error occurred: the group does not exist or you do not have permission to perform this action."
     );
   }
 
@@ -176,7 +177,7 @@ const deleteGroup = async (req, res) => {
   if (!group) {
     res.status(400);
     throw new Error(
-      `An error occurred: the group does not exist or you do not have permission to perform this action.`
+      "An error occurred: the group does not exist or you do not have permission to perform this action."
     );
   }
 

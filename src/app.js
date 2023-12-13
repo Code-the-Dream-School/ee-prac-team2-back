@@ -14,7 +14,9 @@ const votesRouter = require("./routes/votesRouter");
 const groupsRouter = require("./routes/groupsRouter");
 
 // api documentation: swagger-ui
-const swaggerDocument = require("yamljs").load("./swagger.yaml");
+const swaggerDocument = require("yamljs").load(
+  path.join(__dirname, "swagger.yaml")
+);
 const swaggerUi = require("swagger-ui-express");
 
 const { errorHandler, notFound } = require("./middleware/errorHandler");

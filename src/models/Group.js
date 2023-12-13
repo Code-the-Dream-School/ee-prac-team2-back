@@ -20,10 +20,12 @@ const groupSchema = new mongoose.Schema(
         ref: "User",
       },
     ],
-    groupEvents: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Event",
-    },
+    groupEvents: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Event",
+      },
+    ],
   },
   { timestamps: true }
 );
