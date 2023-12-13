@@ -15,7 +15,9 @@ const authRouter = require("./routes/authRouter");
 const { authenticateUser } = require("./middleware/authHandler");
 
 // api documentation: swagger-ui
-const swaggerDocument = require("yamljs").load("./src/swagger.yaml");
+const swaggerDocument = require("yamljs").load(
+  path.join(__dirname, "swagger.yaml")
+);
 const swaggerUi = require("swagger-ui-express");
 
 const { errorHandler, notFound } = require("./middleware/errorHandler");
@@ -23,7 +25,12 @@ const { errorHandler, notFound } = require("./middleware/errorHandler");
 // middleware
 
 // we shall change the cors origin once the frontend is deployed
-app.use(cors({ origin: process.env.ORIGIN || "http://localhost:3000", optionsSuccessStatus: 200 }));
+app.use(
+  cors({
+    origin: process.env.ORIGIN || "http://localhost:3000",
+    optionsSuccessStatus: 200,
+  })
+);
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));

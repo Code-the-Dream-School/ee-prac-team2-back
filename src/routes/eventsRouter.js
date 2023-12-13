@@ -5,8 +5,9 @@ const {
   getAllEvents,
   getEvent,
   saveEvent,
-  getEventActivities,
+  updateEvent,
   deleteEvent,
+  getEventActivities,
 } = require("../controllers/eventsController");
 
 // @route   GET /api/v1/events
@@ -20,6 +21,9 @@ router.get("/activities/:_id", getEventActivities);
 
 // @route   POST /api/v1/events
 router.post("/", saveEvent);
+
+// @route   PUT /api/v1/events/:_id
+router.put("/:_id", updateEvent);
 
 // @route   DELETE /api/v1/events/:_id
 router.delete("/:_id", deleteEvent);
