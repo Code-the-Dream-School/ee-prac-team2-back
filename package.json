@@ -10,6 +10,15 @@
     "lint": "eslint . --ext .ts,.js, --fix --ignore-path .gitignore",
     "start": "node src/server.js"
     "format": "prettier . --write --ignore-path .gitignore && git update-index --again",
+  "lint-staged": {
+    "*.{css,md,json}": [
+      "npm run format"
+    ],
+    "*.ts?(x)": [
+      "npm run lint",
+      "npm run format"
+    ],
+    "package.json": "npx sort-package-json"
   },
   "author": "",
   "license": "ISC",
