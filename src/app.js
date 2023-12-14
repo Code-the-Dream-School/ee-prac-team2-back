@@ -6,14 +6,12 @@ const favicon = require("express-favicon");
 const logger = require("morgan");
 const cookieParser = require("cookie-parser");
 
-// imports
+// routers
 const testsRouter = require("./routes/testsRouter");
 const activitiesRouter = require("./routes/activitiesRouter");
 const eventsRouter = require("./routes/eventsRouter");
 const authRouter = require("./routes/authRouter");
 const groupsRouter = require("./routes/groupsRouter");
-
-const { authenticateUser } = require("./middleware/authHandler");
 
 // api documentation: swagger-ui
 const swaggerDocument = require("yamljs").load(
@@ -21,9 +19,8 @@ const swaggerDocument = require("yamljs").load(
 );
 const swaggerUi = require("swagger-ui-express");
 
-const { errorHandler, notFound } = require("./middleware/errorHandler");
-
 // middleware
+const { errorHandler, notFound } = require("./middleware/errorHandler");
 const { authenticateUser } = require("./middleware/authHandler");
 
 // we shall change the cors origin once the frontend is deployed
