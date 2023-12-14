@@ -1,14 +1,43 @@
+const axios = require("axios");
 const Activity = require("../models/Activity");
 const Event = require("../models/Event");
 const EventActivity = require("../models/EventActivity");
 
-// @desc    Endpoint for fetching pre-saved activities
-// @route   GET /api/v1/activities
+// @desc    Endpoint for fetching all activities
+// @routes  GET /api/v1/activities
 // @access  public
 const getAllActivities = async (req, res) => {
-  const response = await Activity.find();
+  let suggestedActivities = [];
 
-  return res.json({ count: response.length, activities: response });
+  for (let i = 0; i < 3; i++) {
+    const apiResponse = await axios.get(
+      `https://www.boredapi.com/api/activity?participants=${i + 1}`
+    );
+    suggestedActivities.push(apiResponse.data);
+  }
+  suggestedActivities = suggestedActivities.map((element) => ({
+    activity: element.activity,
+    type: element.type,
+  }));
+
+  console.log(suggestedActivities);
+  const hardCodedActivities = await Activity.aggregate([
+    { $sample: { size: 3 } },
+    {
+      $project: {
+        activity: 1,
+        type: 1,
+        _id: 0,
+      },
+    },
+  ]);
+
+  suggestedActivities.push(...hardCodedActivities);
+
+  return res.json({
+    count: suggestedActivities.length,
+    activities: suggestedActivities,
+  });
 };
 
 // @desc    Endpoint for fetching a single activity

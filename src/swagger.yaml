@@ -4,7 +4,7 @@ info:
   contact: {}
   version: "1.0"
 servers:
-  - url: https://dn-live-test.onrender.com/
+  - url: https://date-night-4gb5.onrender.com/
     variables: {}
 paths:
   /api/v1/groups:
@@ -273,13 +273,7 @@ paths:
       summary: Create Activity
       description: Endpoint for creating an activity
       operationId: CreateActivity
-      parameters:
-        - name: dummy
-          in: query
-          required: false
-          description: With this query set to true, the activity resource will be saved in the dummy data model of activities (Activity). But if set to false or absent, an 'eventID' value will be required in the POST request body and the activity resource will be saved in the EventActivity data model.
-          schema:
-            type: boolean
+      parameters: []
       requestBody:
         description: ""
         content:
@@ -288,11 +282,9 @@ paths:
               allOf:
                 - $ref: "#/components/schemas/CreateActivityRequest"
                 - example:
-                    eventID: 6574c51581ee2c66d25177c9
                     activity: A volleyball tournament event
                     type: sports.
             example:
-              eventID: 6574c51581ee2c66d25177c9
               activity: A volleyball tournament event
               type: sports.
         required: true
@@ -569,14 +561,11 @@ components:
         - type
       type: object
       properties:
-        eventID:
-          type: string
         activity:
           type: string
         type:
           type: string
       example:
-        eventID: 6574c51581ee2c66d25177c9
         activity: A volleyball tournament event
         type: sports.
     UpdateActivityRequest:
