@@ -167,21 +167,10 @@ const deleteEvent = async (req, res) => {
   return res.json({ msg: `Successfully removed event with ID: ${_id}` });
 };
 
-// @desc    Endpoint for fetching just the activities saved in an event
-// @routes  GET /api/v1/event/activities/:_id
-// @access  signed in users only
-const getEventActivities = async (req, res) => {
-  const { _id } = req.params;
-  const response = await EventActivity.find({ eventID: _id }).populate("votes");
-
-  return res.json({ count: response.length, activities: response });
-};
-
 module.exports = {
   getAllEvents,
   getEvent,
   saveEvent,
   deleteEvent,
   updateEvent,
-  getEventActivities,
 };

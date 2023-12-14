@@ -20,7 +20,6 @@ const getAllActivities = async (req, res) => {
     type: element.type,
   }));
 
-  console.log(suggestedActivities);
   const hardCodedActivities = await Activity.aggregate([
     { $sample: { size: 3 } },
     {

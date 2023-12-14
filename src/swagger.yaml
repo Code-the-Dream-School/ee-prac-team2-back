@@ -4,7 +4,8 @@ info:
   contact: {}
   version: "1.0"
 servers:
-  - url: https://date-night-4gb5.onrender.com/
+  # - url: https://date-night-4gb5.onrender.com/
+  - url: http://127.0.0.1:8000/
     variables: {}
 paths:
   /api/v1/groups:
@@ -222,32 +223,46 @@ paths:
           description: ""
           headers: {}
       deprecated: false
+    put:
+      tags:
+        - Events
+      summary: Update Event
+      description: Endpoint for updating an event. This endpoint is also used for adding new activities to an event already existing. Event ID must be provided as a URL param!
+      operationId: UpdateEvent
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/UpdateEventRequest"
+                - example:
+                    name: "Game Night"
+                    activities:
+                      - activity: "2 hours of volleyball"
+                        type: "sports"
+                      - activity: "5 Games of rapid Chess"
+                        type: "competitive"
+            example:
+              name: "Game Night"
+              activities:
+                - activity: "2 hours of volleyball"
+                  type: "sports"
+                - activity: "5 Games of rapid Chess"
+                  type: "competitive"
+        required: true
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
     delete:
       tags:
         - Events
       summary: Delete Event
       description: Endpoint for deleting an event. Using this route will not only delete the event, but also cascade (remove) all of the event's linked activities!
       operationId: DeleteEvent
-      parameters: []
-      responses:
-        "200":
-          description: ""
-          headers: {}
-      deprecated: false
-  /api/v1/events/activities/{eventID}:
-    parameters:
-      - in: path
-        name: eventID
-        schema:
-          type: string
-        required: true
-        description: The event resource id
-    get:
-      tags:
-        - Events
-      summary: Get Event's All Activities
-      description: Endpoint for viewing just the activities of an event
-      operationId: GetAllEventActivities
       parameters: []
       responses:
         "200":
@@ -271,7 +286,7 @@ paths:
       tags:
         - Activities
       summary: Create Activity
-      description: Endpoint for creating an activity
+      description: Endpoint for creating an activity. Data from this endpoint will be saved as part of the dummy activities data (hardcoded)
       operationId: CreateActivity
       parameters: []
       requestBody:
@@ -313,44 +328,6 @@ paths:
           description: ""
           headers: {}
       deprecated: false
-    delete:
-      tags:
-        - Activities
-      summary: Delete Event Activity
-      description: Endpoint for deleting an event activity. Activity ID must be provided as a URL param!
-      operationId: DeleteEventActivity
-      parameters: []
-      responses:
-        "200":
-          description: ""
-          headers: {}
-      deprecated: false
-    put:
-      tags:
-        - Activities
-      summary: Update Event Activity
-      description: Endpoint for updating an event activity. Activity ID must be provided as a URL param!
-      operationId: UpdateEventActivity
-      parameters: []
-      requestBody:
-        description: ""
-        content:
-          application/json:
-            schema:
-              allOf:
-                - $ref: "#/components/schemas/UpdateActivityRequest"
-                - example:
-                    name: Hiking
-                    category: relaxing
-            example:
-              name: Hiking
-              category: relaxing
-        required: true
-      responses:
-        "200":
-          description: ""
-          headers: {}
-      deprecated: false
   /api/v1/activities/{activityID}/votes:
     parameters:
       - in: path
@@ -362,7 +339,7 @@ paths:
     put:
       tags:
         - Activities
-      summary: Update Event Activity Vote
+      summary: Vote for an Activity
       description: Endpoint for updating (increase/decrease) vote count of an event activity. A signed in user is required in order to access this route!
       operationId: UpdateEventActivityVote
       parameters: []
@@ -551,6 +528,34 @@ components:
                 description: Type of the activity.
       example:
         groupID: 6574d1d586b39da9fc3cb27b
+        name: Soccer Day
+        description: A sports tournament event.
+    UpdateEventRequest:
+      title: UpdateEventRequest
+      required:
+        - name
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        eventDateTime:
+          type: string
+        activities:
+          type: array
+          items:
+            type: object
+            properties:
+              activity:
+                type: string
+                description: Description of the activity.
+              type:
+                type: string
+                enum:
+                  ["sports", "competitive", "social", "educational", "other"]
+                description: Type of the activity.
+      example:
         name: Soccer Day
         description: A sports tournament event.
     CreateActivityRequest:
