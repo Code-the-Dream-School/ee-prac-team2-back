@@ -4,8 +4,7 @@ info:
   contact: {}
   version: "1.0"
 servers:
-  # - url: https://date-night-4gb5.onrender.com/
-  - url: http://127.0.0.1:8000/
+  - url: https://date-night-4gb5.onrender.com/
     variables: {}
 paths:
   /api/v1/groups:
