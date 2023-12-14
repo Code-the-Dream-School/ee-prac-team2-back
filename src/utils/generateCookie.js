@@ -4,6 +4,7 @@ const generateCookie = ({ res, token }) => {
     httpOnly: true,
     expires: new Date(Date.now() + oneDay),
     secure: process.env.PRODUCTION_ENV === "production",
+    sameSite: false
   });
 };
 
