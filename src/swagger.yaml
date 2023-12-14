@@ -7,12 +7,150 @@ servers:
   - url: https://date-night-4gb5.onrender.com/
     variables: {}
 paths:
+  /api/v1/groups:
+    get:
+      tags:
+        - Groups
+      summary: Get All Groups
+      description: Endpoint for viewing all the groups that the current user belongs to.
+      operationId: GetAllGroups
+      parameters:
+        - name: memberType
+          in: query
+          required: false
+          description: Filter events by membership type (owner for owned groups, member for non-owned groups, absent for all groups)
+          schema:
+            type: string
+            enum:
+              - owner
+              - member
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+    post:
+      tags:
+        - Groups
+      summary: Create Group
+      description: Endpoint for creating a group
+      operationId: CreateGroup
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/CreateGroupRequest"
+                - example:
+                    groupName: "The Fellowship of the Ring"
+                    description: "One does not simply walk into Mordor"
+                    memberEmails:
+                      [
+                        "frodo@theshire.com",
+                        "samwise@theshire.com",
+                        "merry@theshire.com",
+                        "foolofatook@theshire.com",
+                        "legolas@mirkwood.com",
+                        "gimli@sonofgloin.com",
+                        "boromir@gondor.com",
+                        "aragorn@dunedin.com",
+                      ]
+            example:
+              groupName: "Stark Family"
+              description: "Winter is coming"
+              memberEmails:
+                [
+                  "catelyn@winterfell.com",
+                  "robb@winterfell.com",
+                  "sansa@winterfell.com",
+                  "arya@winterfell.com",
+                  "bran@winterfell.com",
+                  "rickon@winterfell.com",
+                ]
+        required: true
+      responses:
+        "201":
+          description: ""
+          headers: {}
+      deprecated: false
+  /api/v1/groups/{groupID}:
+    parameters:
+      - in: path
+        name: groupID
+        schema:
+          type: string
+        required: true
+        description: The group resource id
+    get:
+      tags:
+        - Groups
+      summary: Get Group
+      description: Endpoint for viewing a single group.
+      operationId: GetGroup
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+    patch:
+      tags:
+        - Groups
+      summary: Update Group
+      description: Endpoint for updating a group. Group ID must be provided as a URL param!
+      operationId: UpdateGroup
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/UpdateGroupRequest"
+                - example:
+                    groupName: "Living Starks"
+                    description: "Spoiler Alert"
+                    memberEmails:
+                      [
+                        "sansa@winterfell.com",
+                        "KING.BRAN@kingslanding.com",
+                        "arya@westofwesteros.com",
+                      ]
+            example:
+              groupName: "Living Starks"
+              description: "Spoiler Alert"
+              memberEmails:
+                [
+                  "sansa@winterfell.com",
+                  "KING.BRAN@kingslanding.com",
+                  "arya@westofwesteros.com",
+                ]
+        required: true
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+    delete:
+      tags:
+        - Groups
+      summary: Delete Group
+      description: Endpoint for deleting a group.
+      operationId: DeleteGroup
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
   /api/v1/activities:
     get:
       tags:
         - Activities
       summary: Get All Activities
-      description: Endpoint for viewing all the activities. This endpoint returns a combination of activities, a total of 6 randomzied activity documents (3 from bored API and 3 from hard coded activities) will be returned.
+      description: Endpoint for viewing all the activities
       operationId: GetAllActivities
       parameters: []
       responses:
@@ -26,13 +164,7 @@ paths:
       summary: Create Activity
       description: Endpoint for creating an activity
       operationId: CreateActivity
-      parameters:
-        - name: dummy
-          in: query
-          required: false
-          description: With this query set to true, the activity resource will be saved in the dummy data model of activities (Activity). But if set to false or absent, an 'eventID' value will be required in the POST request body and the activity resource will be saved in the EventActivity data model.
-          schema:
-            type: boolean
+      parameters: []
       requestBody:
         description: ""
         content:
@@ -41,13 +173,13 @@ paths:
               allOf:
                 - $ref: "#/components/schemas/CreateActivityRequest"
                 - example:
-                    eventID: 6574c51581ee2c66d25177c9
-                    activity: A volleyball tournament event
-                    type: sports.
+                    name: Soccer Day
+                    category: social
+                    description: A sports tournament event.
             example:
-              eventID: 6574c51581ee2c66d25177c9
-              activity: A volleyball tournament event
-              type: sports.
+              name: Soccer Day
+              category: social
+              description: A sports tournament event.
         required: true
       responses:
         "201":
@@ -77,9 +209,9 @@ paths:
     delete:
       tags:
         - Activities
-      summary: Delete Event Activity
-      description: Endpoint for deleting an event activity. Activity ID must be provided as a URL param!
-      operationId: DeleteEventActivity
+      summary: Delete Activity
+      description: Endpoint for deleting an activity. Activity ID must be provided as a URL param!
+      operationId: DeleteActivity
       parameters: []
       responses:
         "200":
@@ -89,9 +221,9 @@ paths:
     put:
       tags:
         - Activities
-      summary: Update Event Activity
-      description: Endpoint for updating an event activity. Activity ID must be provided as a URL param!
-      operationId: UpdateEventActivity
+      summary: Update Activity
+      description: Endpoint for updating an activity. Activity ID must be provided as a URL param!
+      operationId: UpdateActivity
       parameters: []
       requestBody:
         description: ""
@@ -112,7 +244,7 @@ paths:
           description: ""
           headers: {}
       deprecated: false
-  /api/v1/activities/{activityID}/votes:
+  /api/v1/votes/{activityID}:
     parameters:
       - in: path
         name: activityID
@@ -122,10 +254,10 @@ paths:
         description: The activity resource id
     put:
       tags:
-        - Activities
-      summary: Update Event Activity Vote
-      description: Endpoint for updating (increase/decrease) vote count of an event activity. A signed in user is required in order to access this route!
-      operationId: UpdateEventActivityVote
+        - Vote
+      summary: Update Activity Vote
+      description: Endpoint for updating (increase/decrease) vote count of an activity. A signed in user is required in order to access this route!
+      operationId: UpdateActivityVote
       parameters: []
       responses:
         "200":
@@ -219,38 +351,99 @@ paths:
       deprecated: false
 components:
   schemas:
+    CreateGroupRequest:
+      title: CreateGroupRequest
+      required:
+        - groupName
+        - description
+        - memberEmails
+      type: object
+      properties:
+        groupName:
+          type: string
+          description: The name of the group.
+        description:
+          type: string
+          description: A brief description of the group.
+        memberEmails:
+          type: array
+          description: A list of email addresses for the group members.
+          items:
+            type: string
+            format: email
+      example:
+        groupName: "Stark Family"
+        description: "Winter is coming"
+        memberEmails:
+          [
+            "catelyn@winterfell.com",
+            "robb@winterfell.com",
+            "sansa@winterfell.com",
+            "arya@winterfell.com",
+            "bran@winterfell.com",
+            "rickon@winterfell.com",
+          ]
+    UpdateGroupRequest:
+      title: UpdateGroupRequest
+      required:
+        - groupName
+        - description
+        - memberEmails
+      type: object
+      properties:
+        groupName:
+          type: string
+          description: The name of the group.
+        description:
+          type: string
+          description: A brief description of the group.
+        memberEmails:
+          type: array
+          description: A list of email addresses for the group members.
+          items:
+            type: string
+            format: email
+      example:
+        groupName: "Living Starks"
+        description: "Spoiler Alert"
+        memberEmails:
+          [
+            "sansa@winterfell.com",
+            "KING.BRAN@kingslanding.com",
+            "arya@westofwesteros.com",
+          ]
     CreateActivityRequest:
       title: CreateActivityRequest
       required:
-        - eventID
-        - activity
-        - type
+        - name
+        - category
+        - description
       type: object
       properties:
-        eventID:
+        name:
           type: string
-        activity:
+        category:
           type: string
-        type:
+        description:
           type: string
       example:
-        eventID: 6574c51581ee2c66d25177c9
-        activity: A volleyball tournament event
-        type: sports.
+        name: Soccer Day
+        category: social
+        description: A sports tournament event.
     UpdateActivityRequest:
       title: UpdateActivityRequest
       required:
-        - activity
-        - type
+        - name
+        - category
       type: object
       properties:
-        activity:
+        name:
           type: string
-        type:
+        category:
           type: string
       example:
-        activity: Hiking
-        type: relaxing
+        name: Hiking
+        category: relaxing
     SignupUserRequest:
       title: SignupUserRequest
       required:
@@ -284,6 +477,8 @@ components:
         email: example@email.com
         password: strongPass123
 tags:
+  - name: Groups
+    description: ""
   - name: Activities
     description: ""
   - name: Vote
