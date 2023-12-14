@@ -1,7 +1,11 @@
 const mongoose = require("mongoose");
 
-const activitySchema = new mongoose.Schema(
+const eventActivitiesSchema = new mongoose.Schema(
   {
+    eventID: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Event",
+    },
     activity: {
       type: String,
       required: [true, "please provide a brief description for the activity!"],
@@ -9,10 +13,10 @@ const activitySchema = new mongoose.Schema(
     type: {
       type: String,
       default: "a default activity type",
-      required: [true, "please provide a type for the activity!"],
     },
+    votes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Activity", activitySchema);
+module.exports = mongoose.model("EventActivity", eventActivitiesSchema);

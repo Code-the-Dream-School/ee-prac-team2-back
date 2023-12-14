@@ -145,12 +145,135 @@ paths:
           description: ""
           headers: {}
       deprecated: false
+  /api/v1/events:
+    get:
+      tags:
+        - Events
+      summary: Get All Events
+      description: Endpoint for viewing all the events.
+      operationId: GetAllEvents
+      parameters:
+        - name: host
+          in: query
+          required: false
+          description: Filter events by host (true for host events, false or absent for all events)
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+    post:
+      tags:
+        - Events
+      summary: Create Event
+      description: Endpoint for creating an event
+      operationId: CreateEvent
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/CreateEventRequest"
+                - example:
+                    groupID: "6574d1d586b39da9fc3cb27b"
+                    name: "Game Night"
+                    eventDateTime: "2023-12-25T19:50:45.384+00:00"
+                    activities:
+                      - activity: "2 hours of volleyball"
+                        type: "sports"
+                      - activity: "5 Games of rapid Chess"
+                        type: "competitive"
+            example:
+              groupID: "6574d1d586b39da9fc3cb27b"
+              name: "Game Night"
+              eventDateTime: "2023-12-25T19:50:45.384+00:00"
+              activities:
+                - activity: "2 hours of volleyball"
+                  type: "sports"
+                - activity: "5 Games of rapid Chess"
+                  type: "competitive"
+        required: true
+      responses:
+        "201":
+          description: ""
+          headers: {}
+      deprecated: false
+  /api/v1/events/{eventID}:
+    parameters:
+      - in: path
+        name: eventID
+        schema:
+          type: string
+        required: true
+        description: The event resource id
+    get:
+      tags:
+        - Events
+      summary: Get Event
+      description: Endpoint for viewing a single event.
+      operationId: GetEvent
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+    put:
+      tags:
+        - Events
+      summary: Update Event
+      description: Endpoint for updating an event. This endpoint is also used for adding new activities to an event already existing. Event ID must be provided as a URL param!
+      operationId: UpdateEvent
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/UpdateEventRequest"
+                - example:
+                    name: "Game Night"
+                    activities:
+                      - activity: "2 hours of volleyball"
+                        type: "sports"
+                      - activity: "5 Games of rapid Chess"
+                        type: "competitive"
+            example:
+              name: "Game Night"
+              activities:
+                - activity: "2 hours of volleyball"
+                  type: "sports"
+                - activity: "5 Games of rapid Chess"
+                  type: "competitive"
+        required: true
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+    delete:
+      tags:
+        - Events
+      summary: Delete Event
+      description: Endpoint for deleting an event. Using this route will not only delete the event, but also cascade (remove) all of the event's linked activities!
+      operationId: DeleteEvent
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
   /api/v1/activities:
     get:
       tags:
         - Activities
       summary: Get All Activities
-      description: Endpoint for viewing all the activities
+      description: Endpoint for viewing all the activities. This endpoint returns a combination of activities, a total of 6 randomzied activity documents (3 from bored API and 3 from hard coded activities) will be returned.
       operationId: GetAllActivities
       parameters: []
       responses:
@@ -162,7 +285,7 @@ paths:
       tags:
         - Activities
       summary: Create Activity
-      description: Endpoint for creating an activity
+      description: Endpoint for creating an activity. Data from this endpoint will be saved as part of the dummy activities data (hardcoded)
       operationId: CreateActivity
       parameters: []
       requestBody:
@@ -173,13 +296,11 @@ paths:
               allOf:
                 - $ref: "#/components/schemas/CreateActivityRequest"
                 - example:
-                    name: Soccer Day
-                    category: social
-                    description: A sports tournament event.
+                    activity: A volleyball tournament event
+                    type: sports.
             example:
-              name: Soccer Day
-              category: social
-              description: A sports tournament event.
+              activity: A volleyball tournament event
+              type: sports.
         required: true
       responses:
         "201":
@@ -206,45 +327,7 @@ paths:
           description: ""
           headers: {}
       deprecated: false
-    delete:
-      tags:
-        - Activities
-      summary: Delete Activity
-      description: Endpoint for deleting an activity. Activity ID must be provided as a URL param!
-      operationId: DeleteActivity
-      parameters: []
-      responses:
-        "200":
-          description: ""
-          headers: {}
-      deprecated: false
-    put:
-      tags:
-        - Activities
-      summary: Update Activity
-      description: Endpoint for updating an activity. Activity ID must be provided as a URL param!
-      operationId: UpdateActivity
-      parameters: []
-      requestBody:
-        description: ""
-        content:
-          application/json:
-            schema:
-              allOf:
-                - $ref: "#/components/schemas/UpdateActivityRequest"
-                - example:
-                    name: Hiking
-                    category: relaxing
-            example:
-              name: Hiking
-              category: relaxing
-        required: true
-      responses:
-        "200":
-          description: ""
-          headers: {}
-      deprecated: false
-  /api/v1/votes/{activityID}:
+  /api/v1/activities/{activityID}/votes:
     parameters:
       - in: path
         name: activityID
@@ -254,10 +337,10 @@ paths:
         description: The activity resource id
     put:
       tags:
-        - Vote
-      summary: Update Activity Vote
-      description: Endpoint for updating (increase/decrease) vote count of an activity. A signed in user is required in order to access this route!
-      operationId: UpdateActivityVote
+        - Activities
+      summary: Vote for an Activity
+      description: Endpoint for updating (increase/decrease) vote count of an event activity. A signed in user is required in order to access this route!
+      operationId: UpdateEventActivityVote
       parameters: []
       responses:
         "200":
@@ -412,38 +495,97 @@ components:
             "KING.BRAN@kingslanding.com",
             "arya@westofwesteros.com",
           ]
-    CreateActivityRequest:
-      title: CreateActivityRequest
+    CreateEventRequest:
+      title: CreateEventRequest
       required:
+        - groupID
         - name
-        - category
-        - description
+        - eventDateTime
+        - activities
       type: object
       properties:
-        name:
+        groupID:
           type: string
-        category:
+        name:
           type: string
         description:
           type: string
+        eventDateTime:
+          type: string
+        activities:
+          type: array
+          items:
+            type: object
+            properties:
+              activity:
+                type: string
+                description: Description of the activity.
+              type:
+                type: string
+                enum:
+                  ["sports", "competitive", "social", "educational", "other"]
+                description: Type of the activity.
       example:
+        groupID: 6574d1d586b39da9fc3cb27b
         name: Soccer Day
-        category: social
         description: A sports tournament event.
-    UpdateActivityRequest:
-      title: UpdateActivityRequest
+    UpdateEventRequest:
+      title: UpdateEventRequest
       required:
         - name
-        - category
       type: object
       properties:
         name:
           type: string
-        category:
+        description:
+          type: string
+        eventDateTime:
+          type: string
+        activities:
+          type: array
+          items:
+            type: object
+            properties:
+              activity:
+                type: string
+                description: Description of the activity.
+              type:
+                type: string
+                enum:
+                  ["sports", "competitive", "social", "educational", "other"]
+                description: Type of the activity.
+      example:
+        name: Soccer Day
+        description: A sports tournament event.
+    CreateActivityRequest:
+      title: CreateActivityRequest
+      required:
+        - eventID
+        - activity
+        - type
+      type: object
+      properties:
+        activity:
+          type: string
+        type:
           type: string
       example:
-        name: Hiking
-        category: relaxing
+        activity: A volleyball tournament event
+        type: sports.
+    UpdateActivityRequest:
+      title: UpdateActivityRequest
+      required:
+        - activity
+        - type
+      type: object
+      properties:
+        activity:
+          type: string
+        type:
+          type: string
+      example:
+        activity: Hiking
+        type: relaxing
     SignupUserRequest:
       title: SignupUserRequest
       required:
@@ -477,11 +619,11 @@ components:
         email: example@email.com
         password: strongPass123
 tags:
+  - name: Auth
+    description: ""
   - name: Groups
     description: ""
+  - name: Events
+    description: ""
   - name: Activities
-    description: ""
-  - name: Vote
-    description: ""
-  - name: Auth
     description: ""
