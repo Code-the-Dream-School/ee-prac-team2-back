@@ -11,16 +11,20 @@ const testsRouter = require("./routes/testsRouter");
 const activitiesRouter = require("./routes/activitiesRouter");
 const eventsRouter = require("./routes/eventsRouter");
 const authRouter = require("./routes/authRouter");
+const groupsRouter = require("./routes/groupsRouter");
 
 const { authenticateUser } = require("./middleware/authHandler");
 
 // api documentation: swagger-ui
-const swaggerDocument = require("yamljs").load("./src/swagger.yaml");
+const swaggerDocument = require("yamljs").load(
+  path.join(__dirname, "swagger.yaml")
+);
 const swaggerUi = require("swagger-ui-express");
 
 const { errorHandler, notFound } = require("./middleware/errorHandler");
 
 // middleware
+const { authenticateUser } = require("./middleware/authHandler");
 
 // we shall change the cors origin once the frontend is deployed
 app.use(
@@ -50,6 +54,7 @@ app.use("/api/v1", testsRouter);
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/events", authenticateUser, eventsRouter);
 app.use("/api/v1/activities", activitiesRouter);
+app.use("/api/v1/groups", authenticateUser, groupsRouter);
 
 app.use(notFound);
 app.use(errorHandler);
