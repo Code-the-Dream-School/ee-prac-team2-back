@@ -15,9 +15,7 @@ const authRouter = require("./routes/authRouter");
 const { authenticateUser } = require("./middleware/authHandler");
 
 // api documentation: swagger-ui
-const swaggerDocument = require("yamljs").load(
-  path.join(__dirname, "swagger.yaml")
-);
+const swaggerDocument = require("yamljs").load("./src/swagger.yaml");
 const swaggerUi = require("swagger-ui-express");
 
 const { errorHandler, notFound } = require("./middleware/errorHandler");
