@@ -11,7 +11,7 @@
     "start": "node src/server.js",
     "format": "prettier . --write --ignore-path .gitignore && git update-index --again"
   },
-    "lint-staged": {
+  "lint-staged": {
     "*.{css,md,json}": [
       "npm run format"
     ],
@@ -20,6 +20,9 @@
       "npm run format"
     ],
     "package.json": "npx sort-package-json"
+  },
+  "engines": {
+    "node": ">=16.14.2"
   },
   "author": "",
   "license": "ISC",
