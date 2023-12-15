@@ -7,6 +7,8 @@ const {
   getCurrentUser,
 } = require("../controllers/authController");
 
+const { authenticateUser } = require("../middleware/authHandler");
+
 // @route   POST /api/v1/auth/signup
 router.post("/signup", signup);
 
@@ -17,6 +19,6 @@ router.route("/login").post(login);
 router.route("/logout").post(logout);
 
 // @route   GET /api/v1/auth/getCurrentUser
-router.route("/getCurrentUser").get(getCurrentUser);
+router.route("/getCurrentUser").get(authenticateUser, getCurrentUser);
 
 module.exports = router;

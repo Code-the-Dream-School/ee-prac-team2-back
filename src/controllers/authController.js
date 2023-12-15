@@ -1,8 +1,7 @@
-const jwt = require("jsonwebtoken");
 const User = require("../models/User");
-const generateCookie = require("../utils/generateCookie");
+const passport = require("passport");
 
-// @desc    creates a 'token cookie' and adds a new user
+// @desc    creates a new cookie with a session ID as its payload
 // @route   POST /api/v1/auth/signup
 // @access  public
 const signup = async (req, res) => {
@@ -11,78 +10,72 @@ const signup = async (req, res) => {
   if (!email || !password || !name) {
     res.status(400);
     throw new Error("Please provide, name, email and password!");
-  } else if (await User.findOne({ email })) {
+  }
+  if (await User.findOne({ email })) {
     res.status(400);
     throw new Error(`User with ${email} email already exists!`);
   }
 
-  const user = await User.create({ name, email, password });
-  const token = user.createJWT();
-  generateCookie({ res, token });
-
-  res.status(201).json({
-    msg: "Signed up successfully!",
-    user: { ...user._doc, password: undefined },
+  const newUser = await User.create({ name, email, password });
+  req.login(newUser, (err) => {
+    if (err) {
+      throw new Error(err);
+    }
+    res.status(201);
+    return res.json({
+      msg: "Signup and login successful!",
+      user: { ...newUser._doc, password: undefined },
+    });
   });
 };
 
-// @desc    creates a 'token cookie' for existing users
+// @desc    creates a new cookie with a session ID as its payload
 // @route   POST /api/v1/auth/login
 // @access  public
-const login = async (req, res) => {
-  const { email, password } = req.body;
+const login = async (req, res, next) => {
+  passport.authenticate("local", (err, user, info) => {
+    if (err) {
+      return next(err);
+    }
 
-  if (!email || !password) {
-    res.status(400);
-    throw new Error("Please provide email and password!");
-  }
+    if (!user) {
+      return res.status(400).json({ msg: "Incorrect email or password!" });
+    }
 
-  const user = await User.findOne({ email }).select("+password");
-  if (user && (await user.comparePassword(password))) {
-    const token = user.createJWT();
-    generateCookie({ res, token });
-    res.status(200).json({ msg: "Logged in successfully!", email: user.email });
-  } else {
-    res.status(400);
-    throw new Error("Invalid email or password!");
-  }
+    req.login(user, (err) => {
+      if (err) {
+        return next(err);
+      }
+
+      return res.json({
+        msg: "Login successful!",
+        user: { ...user._doc, password: undefined },
+      });
+    });
+  })(req, res, next);
 };
 
-// @desc    destroys authenticated user's cookie
+// @desc    destroys authenticated user's session payload
 // @route   POST /api/v1/auth/logout
 // @access  signed in users only
 const logout = async (req, res) => {
-  const token = req.cookies.jwt;
-  if (!token) {
-    res.status(401);
-    throw new Error("No valid token found!");
-  }
-  res.cookie("jwt", "", {
-    httpOnly: true,
-    maxAge: new Date(0),
-    secure: process.env.PRODUCTION_ENV === "production",
+  req.logout((err) => {
+    if (err) {
+      return res.status(500).json({ error: "Error during logout" });
+    }
+    res.status(200).json({ msg: "Logged out!" });
   });
-  res.status(200).json({ msg: "Logged out!" });
 };
 
 // @desc    get authenticated user's detail
 // @route   GET /api/v1/auth/getCurrentUser
 // @access  signed in users only
 const getCurrentUser = async (req, res) => {
-  const token = req.cookies.jwt;
-  if (!token) {
-    res.status(401);
-    throw new Error("no valid token found!");
-  }
-  try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET);
-    const validUser = await User.findOne({ _id: payload.id });
+  const { user } = req.session.passport;
 
-    res.status(200).json({ name: validUser.name, email: validUser.email });
-  } catch (error) {
-    res.status(401);
-    throw new Error("Unauthorized access!");
-  }
+  const foundUser = await User.findOne({ _id: user });
+
+  return res.json(foundUser);
 };
 
 module.exports = { signup, login, logout, getCurrentUser };
