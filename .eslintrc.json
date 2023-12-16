@@ -21,7 +21,9 @@
     // don't highlight violations here, Prettier will silently fix them
     "prettier/prettier": "off",
     // seems only relevant to publishing on NPM
-    "n/no-unpublished-require": "off"
+    "n/no-unpublished-require": "off",
+    // we use dangling underscores quite a bit in our mongo variables eg `_id`
+    "no-underscore-dangle": "off"
   },
   "overrides": [
     {
