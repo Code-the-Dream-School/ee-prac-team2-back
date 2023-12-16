@@ -16,6 +16,7 @@ const getAllActivities = async (req, res) => {
     suggestedActivities.push(apiResponse.data);
   }
   suggestedActivities = suggestedActivities.map((element) => ({
+    _id: element.key,
     activity: element.activity,
     type: element.type,
   }));
@@ -26,7 +27,7 @@ const getAllActivities = async (req, res) => {
       $project: {
         activity: 1,
         type: 1,
-        _id: 0,
+        _id: 1,
       },
     },
   ]);
@@ -136,7 +137,7 @@ const deleteActivity = async (req, res) => {
 // @access  signed in users only
 const updateActivityVote = async (req, res) => {
   const { _id } = req.params;
-  const { userID } = req.user;
+  const userID = req.user._id;
   let activity = await EventActivity.findOne({ _id });
   if (activity) {
     if (activity.votes.includes(userID)) {

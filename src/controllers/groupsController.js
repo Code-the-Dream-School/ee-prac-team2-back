@@ -6,19 +6,20 @@ const Event = require("../models/Event");
 // @route   GET /api/v1/groups
 // @access  signed in users only
 const getAllGroups = async (req, res) => {
+  const userID = req.user._id;
   // allows user to filter by groups owned or groups where the user is a member
   const { memberType } = req.query;
 
   let queryObject = {};
   if (memberType === "owner") {
-    queryObject.owner = req.user.userID;
+    queryObject.owner = userID;
   }
   if (memberType === "member") {
-    queryObject.members = { $in: [req.user.userID] };
+    queryObject.members = { $in: [userID] };
   }
   if (!memberType) {
     queryObject = {
-      $or: [{ owner: req.user.userID }, { members: req.user.userID }],
+      $or: [{ owner: userID }, { members: userID }],
     };
   }
 
@@ -70,15 +71,6 @@ const getGroup = async (req, res) => {
     throw new Error(`Group with ${_id} ID does not exist!`);
   }
 
-  if (
-    group.owner._id !== req.user.userID &&
-    !group.members.some((member) => member._id === req.user.userID)
-  ) {
-    console.log("ownerID:", group.owner._id);
-    console.log(group.members.some((member) => member._id === req.user.userID));
-    throw new Error("You do not have permission to access this group.");
-  }
-
   return res.json(group);
 };
 
@@ -108,7 +100,7 @@ const createGroup = async (req, res) => {
   const newGroup = await Group.create({
     groupName,
     description,
-    owner: req.user.userID,
+    owner: req.user._id,
     members: memberIDs,
   });
 
@@ -151,7 +143,7 @@ const updateGroup = async (req, res) => {
   const memberIDs = foundUsers?.map((user) => user._id);
 
   const updatedGroup = await Group.findOneAndUpdate(
-    { _id, owner: req.user.userID },
+    { _id, owner: req.user._id },
     { groupName, description, members: memberIDs },
     { new: true, runValidators: true }
   );
@@ -182,7 +174,7 @@ const updateGroup = async (req, res) => {
 // @access  group owner only
 const deleteGroup = async (req, res) => {
   const { _id } = req.params;
-  const group = await Group.findOneAndDelete({ _id, owner: req.user.userID });
+  const group = await Group.findOneAndDelete({ _id, owner: req.user._id });
   if (!group) {
     res.status(400);
     throw new Error(
