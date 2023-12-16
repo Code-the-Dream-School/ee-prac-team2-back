@@ -23,7 +23,9 @@
     // seems only relevant to publishing on NPM
     "n/no-unpublished-require": "off",
     // we use dangling underscores quite a bit in our mongo variables eg `_id`
-    "no-underscore-dangle": "off"
+    "no-underscore-dangle": "off",
+    // allow unary `++` operator for loop syntax only
+    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }]
   },
   "overrides": [
     {
