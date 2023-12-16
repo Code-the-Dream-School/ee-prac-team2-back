@@ -10,6 +10,7 @@ const CHOOSE_ACTIVITY_BEFORE_MINUTES = 1;
 const scheduleJobToSelectActivity = async function () {
   // The schedule job is set to run every minute
   schedule.scheduleJob("* * * * *", async () => {
+
     // Get all upcoming events within CHOOSE_ACTIVITY_BEFORE_MINUTES
     const upcomingEvents = await Event.find({
       eventDateTime: {
@@ -49,11 +50,5 @@ const scheduleJobToSelectActivity = async function () {
     }
   });
 };
-
-// Handles shutdown of the scheduled job process
-process.on("SIGINT", () => {
-  job.cancel();
-  process.exit(0);
-});
 
 module.exports = { scheduleJobToSelectActivity };
