@@ -17,7 +17,6 @@
       "npm run format"
     ],
     "*.ts?(x)": [
-      "npm run lint",
       "npm run format"
     ],
     "package.json": "npx sort-package-json"
