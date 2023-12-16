@@ -3,7 +3,7 @@ const notFound = (req, res) => {
 };
 
 const errorHandler = (err, req, res, next) => {
-  let customError = {
+  const customError = {
     errorMessage: err.message || "something went wrong!",
     errorCode: res.statusCode || 500,
   };
