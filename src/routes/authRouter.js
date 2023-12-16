@@ -13,12 +13,12 @@ const { authenticateUser } = require("../middleware/authHandler");
 router.post("/signup", signup);
 
 // @route   POST /api/v1/auth/login
-router.route("/login").post(login);
+router.post("/login", login);
 
 // @route   POST /api/v1/auth/logout
-router.route("/logout").post(logout);
+router.post("/logout", logout);
 
 // @route   GET /api/v1/auth/getCurrentUser
-router.route("/getCurrentUser").get(authenticateUser, getCurrentUser);
+router.get("/getCurrentUser", authenticateUser, getCurrentUser);
 
 module.exports = router;

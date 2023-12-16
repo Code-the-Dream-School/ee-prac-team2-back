@@ -136,7 +136,7 @@ const deleteActivity = async (req, res) => {
 // @access  signed in users only
 const updateActivityVote = async (req, res) => {
   const { _id } = req.params;
-  const { userID } = req.user;
+  const userID = req.user._id;
   let activity = await EventActivity.findOne({ _id });
   if (activity) {
     if (activity.votes.includes(userID)) {
