@@ -228,7 +228,13 @@ paths:
       summary: Update Event
       description: Endpoint for updating an event. This endpoint is also used for adding new activities to an event already existing. Event ID must be provided as a URL param!
       operationId: UpdateEvent
-      parameters: []
+      parameters:
+        - name: chosenActivity
+          in: query
+          required: false
+          description: Enter an EventActivity's ID associated with the entered Event's ID to override and replace the chosenActivity field's data. Request body can be empty for this request.
+          schema:
+            type: string
       requestBody:
         description: ""
         content:
