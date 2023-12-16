@@ -8,6 +8,12 @@ const passport = require("passport");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 
+// api documentation: swagger-ui
+const swaggerDocument = require("yamljs").load(
+  path.join(__dirname, "swagger.yaml")
+);
+const swaggerUi = require("swagger-ui-express");
+
 // routers
 const testsRouter = require("./routes/testsRouter");
 const activitiesRouter = require("./routes/activitiesRouter");
@@ -17,12 +23,6 @@ const usersRouter = require("./routes/usersRouter");
 const groupsRouter = require("./routes/groupsRouter");
 
 // middleware
-// api documentation: swagger-ui
-const swaggerDocument = require("yamljs").load(
-  path.join(__dirname, "swagger.yaml")
-);
-const swaggerUi = require("swagger-ui-express");
-
 const { errorHandler, notFound } = require("./middleware/errorHandler");
 const { authenticateUser } = require("./middleware/authHandler");
 

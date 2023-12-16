@@ -1,5 +1,5 @@
-const User = require("../models/User");
 const passport = require("passport");
+const User = require("../models/User");
 
 // @desc    creates a new cookie with a session ID as its payload
 // @route   POST /api/v1/auth/signup
