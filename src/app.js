@@ -30,6 +30,7 @@ const { authenticateUser } = require("./middleware/authHandler");
 app.use(
   cors({
     origin: process.env.ORIGIN || "http://localhost:3000",
+    credentials: true,
     optionsSuccessStatus: 200,
     credentials: true,
   })

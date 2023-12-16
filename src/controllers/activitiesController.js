@@ -16,6 +16,7 @@ const getAllActivities = async (req, res) => {
     suggestedActivities.push(apiResponse.data);
   }
   suggestedActivities = suggestedActivities.map((element) => ({
+    _id: element.key,
     activity: element.activity,
     type: element.type,
   }));
@@ -26,7 +27,7 @@ const getAllActivities = async (req, res) => {
       $project: {
         activity: 1,
         type: 1,
-        _id: 0,
+        _id: 1,
       },
     },
   ]);
