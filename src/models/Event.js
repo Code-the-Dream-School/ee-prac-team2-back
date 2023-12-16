@@ -1,5 +1,5 @@
-const Group = require("./Group");
 const mongoose = require("mongoose");
+const Group = require("./Group");
 
 const eventSchema = new mongoose.Schema(
   {

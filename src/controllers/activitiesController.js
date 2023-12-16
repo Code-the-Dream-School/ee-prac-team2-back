@@ -138,7 +138,7 @@ const deleteActivity = async (req, res) => {
 const updateActivityVote = async (req, res) => {
   const { _id } = req.params;
   const userID = req.user._id;
-  let activity = await EventActivity.findOne({ _id });
+  const activity = await EventActivity.findOne({ _id });
   if (activity) {
     if (activity.votes.includes(userID)) {
       activity.votes.pull(userID);

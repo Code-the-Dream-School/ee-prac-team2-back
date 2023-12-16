@@ -1,5 +1,6 @@
 const path = require("node:path");
 const express = require("express");
+
 const app = express();
 const cors = require("cors");
 const favicon = require("express-favicon");
@@ -7,6 +8,12 @@ const logger = require("morgan");
 const passport = require("passport");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
+
+// api documentation: swagger-ui
+const swaggerDocument = require("yamljs").load(
+  path.join(__dirname, "swagger.yaml")
+);
+const swaggerUi = require("swagger-ui-express");
 
 // routers
 const testsRouter = require("./routes/testsRouter");
@@ -17,12 +24,6 @@ const usersRouter = require("./routes/usersRouter");
 const groupsRouter = require("./routes/groupsRouter");
 
 // middleware
-// api documentation: swagger-ui
-const swaggerDocument = require("yamljs").load(
-  path.join(__dirname, "swagger.yaml")
-);
-const swaggerUi = require("swagger-ui-express");
-
 const { errorHandler, notFound } = require("./middleware/errorHandler");
 const { authenticateUser } = require("./middleware/authHandler");
 

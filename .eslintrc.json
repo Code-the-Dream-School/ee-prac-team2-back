@@ -1,39 +1,41 @@
 {
-    "env": {
-        "node": true,
-        "commonjs": true,
-        "es2021": true,
-        "mocha": true
-    },
-    "extends": [
-        "eslint:recommended",
-        "eslint-config-standard",
-        "eslint-config-semistandard",
-        "plugin:import/recommended",
-        "plugin:n/recommended",
-        "plugin:promise/recommended"
-    ],
-    "parserOptions": {
-        "ecmaVersion": "latest"
-    },
-    "rules": {
-        // seems only relevant to publishing on NPM
-        "n/no-unpublished-require": "off"
-    },
-    "overrides": [
-        {
-            "files": ["test/*.*"],
-            "rules": {
-                "no-unused-vars": [
-                    "error",
-                    {
-                        /* `should` and `expect` aren't "used"
+  "env": {
+    "node": true,
+    "commonjs": true,
+    "es2021": true,
+    "mocha": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:import/recommended",
+    "plugin:n/recommended",
+    "plugin:promise/recommended",
+    "airbnb-base",
+    // turns off all rules that are unnecessary or might conflict with Prettier.
+    "plugin:prettier/recommended"
+  ],
+  "parserOptions": {
+    "ecmaVersion": "latest"
+  },
+  "rules": {
+    // don't highlight violations here, Prettier will silently fix them
+    "prettier/prettier": "off",
+    // seems only relevant to publishing on NPM
+    "n/no-unpublished-require": "off"
+  },
+  "overrides": [
+    {
+      "files": ["test/*.*"],
+      "rules": {
+        "no-unused-vars": [
+          "error",
+          {
+            /* `should` and `expect` aren't "used"
                          in a way that's obvious to eslint */
-                        "varsIgnorePattern": "should|expect"
-                    }
-                ]
-            }
-        }
-    ]
-
+            "varsIgnorePattern": "should|expect"
+          }
+        ]
+      }
+    }
+  ]
 }
