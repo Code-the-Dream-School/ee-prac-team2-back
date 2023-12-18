@@ -1,10 +1,4 @@
 # https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
 
 # All team members will be automatically requested as code reviewers for any non-draft PR
-@angelkbrown
-@anniethewebcoder
-@catbus00
-@dargacode
-@marice-romero
-@msrezaie
-@victoria240
+* @angelkbrown @anniethewebcoder @catbus00 @dargacode @marice-romero @msrezaie @victoria240

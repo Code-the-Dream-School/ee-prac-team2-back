@@ -1,160 +1,156 @@
-[{
-  "_id": {
-    "$oid": "654e4c8cdfd2bc2c22bffd0c"
+[
+  {
+    "_id": {
+      "$oid": "656b6199fa36aea592c2307f"
+    },
+    "activity": "A day of soccer practice.",
+    "type": "social",
+    "createdAt": {
+      "$date": "2023-12-02T16:55:53.999Z"
+    },
+    "updatedAt": {
+      "$date": "2023-12-02T16:55:53.999Z"
+    },
+    "__v": 0
   },
-  "name": "Reading a Book",
-  "description": "Enjoy a good book at home.",
-  "category": "relaxing",
-  "votes": 15,
-  "createdAt": {
-    "$date": "2023-11-10T15:30:20.139Z"
+  {
+    "_id": {
+      "$oid": "656b62e0fa36aea592c2308e"
+    },
+    "activity": "Gather friends and watch a movie.",
+    "type": "social",
+    "createdAt": {
+      "$date": "2023-12-02T17:01:20.844Z"
+    },
+    "updatedAt": {
+      "$date": "2023-12-02T17:01:20.844Z"
+    },
+    "__v": 0
   },
-  "updatedAt": {
-    "$date": "2023-11-10T15:30:20.139Z"
+  {
+    "_id": {
+      "$oid": "656d3d612b4a3921b72281ee"
+    },
+    "activity": "Enjoy a good book at home.",
+    "type": "relaxing",
+    "createdAt": {
+      "$date": "2023-12-04T02:45:53.596Z"
+    },
+    "updatedAt": {
+      "$date": "2023-12-04T02:45:53.596Z"
+    },
+    "__v": 0
   },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "654e4c8cdfd2bc2c22bffd10"
+  {
+    "_id": {
+      "$oid": "656d3d7c2b4a3921b72281f6"
+    },
+    "activity": "Immerse yourself in art and history at a museum.",
+    "type": "cultural",
+    "createdAt": {
+      "$date": "2023-12-04T02:46:20.628Z"
+    },
+    "updatedAt": {
+      "$date": "2023-12-04T02:46:20.628Z"
+    },
+    "__v": 0
   },
-  "name": "Movie Night",
-  "description": "Gather with friends for a fun movie night.",
-  "category": "social",
-  "votes": 49,
-  "createdAt": {
-    "$date": "2023-11-10T15:30:20.140Z"
+  {
+    "_id": {
+      "$oid": "656d3d9a2b4a3921b72281fd"
+    },
+    "activity": "Relax and unwind on a beautiful beach vacation.",
+    "type": "holiday",
+    "createdAt": {
+      "$date": "2023-12-04T02:46:50.808Z"
+    },
+    "updatedAt": {
+      "$date": "2023-12-04T02:46:50.808Z"
+    },
+    "__v": 0
   },
-  "updatedAt": {
-    "$date": "2023-11-10T17:12:51.688Z"
+  {
+    "_id": {
+      "$oid": "656d3da72b4a3921b7228201"
+    },
+    "activity": "Learn to cook delicious dishes in a cooking class.",
+    "type": "educational",
+    "createdAt": {
+      "$date": "2023-12-04T02:47:03.814Z"
+    },
+    "updatedAt": {
+      "$date": "2023-12-04T02:47:03.814Z"
+    },
+    "__v": 0
   },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "654e4c8cdfd2bc2c22bffd11"
+  {
+    "_id": {
+      "$oid": "656d3e312b4a3921b722820f"
+    },
+    "activity": "Find inner peace and relaxation through yoga.",
+    "type": "relaxing",
+    "createdAt": {
+      "$date": "2023-12-04T02:49:21.787Z"
+    },
+    "updatedAt": {
+      "$date": "2023-12-04T02:49:21.787Z"
+    },
+    "__v": 0
   },
-  "name": "Museum Visit",
-  "description": "Immerse yourself in art and history at a museum.",
-  "category": "cultural",
-  "votes": 12,
-  "createdAt": {
-    "$date": "2023-11-10T15:30:20.140Z"
+  {
+    "_id": {
+      "$oid": "656d3e3b2b4a3921b7228213"
+    },
+    "activity": "Challenge your mind with a game of chess.",
+    "type": "educational",
+    "createdAt": {
+      "$date": "2023-12-04T02:49:31.057Z"
+    },
+    "updatedAt": {
+      "$date": "2023-12-04T02:49:31.057Z"
+    },
+    "__v": 0
   },
-  "updatedAt": {
-    "$date": "2023-11-10T15:30:20.140Z"
+  {
+    "_id": {
+      "$oid": "656d3e442b4a3921b7228217"
+    },
+    "activity": "Express your creativity through art.",
+    "type": "creative",
+    "createdAt": {
+      "$date": "2023-12-04T02:49:40.817Z"
+    },
+    "updatedAt": {
+      "$date": "2023-12-04T02:49:40.817Z"
+    },
+    "__v": 0
   },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "654e4c8cdfd2bc2c22bffd12"
+  {
+    "_id": {
+      "$oid": "656d3e4e2b4a3921b722821b"
+    },
+    "activity": "Enjoy live music and socialize at a concert event.",
+    "type": "social",
+    "createdAt": {
+      "$date": "2023-12-04T02:49:50.231Z"
+    },
+    "updatedAt": {
+      "$date": "2023-12-04T02:49:50.231Z"
+    },
+    "__v": 0
   },
-  "name": "Beach Vacation",
-  "description": "Relax and unwind on a beautiful beach vacation.",
-  "category": "holiday",
-  "votes": 20,
-  "createdAt": {
-    "$date": "2023-11-10T15:30:20.140Z"
-  },
-  "updatedAt": {
-    "$date": "2023-11-10T15:30:20.140Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "654e4c8cdfd2bc2c22bffd13"
-  },
-  "name": "Cooking Class",
-  "description": "Learn to cook delicious dishes in a cooking class.",
-  "category": "educational",
-  "votes": 3,
-  "createdAt": {
-    "$date": "2023-11-10T15:30:20.140Z"
-  },
-  "updatedAt": {
-    "$date": "2023-11-10T15:30:20.140Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "654e4c8cdfd2bc2c22bffd14"
-  },
-  "name": "Yoga",
-  "description": "Find inner peace and relaxation through yoga.",
-  "category": "relaxing",
-  "votes": 0,
-  "createdAt": {
-    "$date": "2023-11-10T15:30:20.141Z"
-  },
-  "updatedAt": {
-    "$date": "2023-11-10T15:30:20.141Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "654e4c8cdfd2bc2c22bffd0e"
-  },
-  "name": "Playing Chess",
-  "description": "Challenge your mind with a game of chess.",
-  "category": "educational",
-  "votes": 5,
-  "createdAt": {
-    "$date": "2023-11-10T15:30:20.140Z"
-  },
-  "updatedAt": {
-    "$date": "2023-11-10T15:30:20.140Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "654e4c8cdfd2bc2c22bffd0d"
-  },
-  "name": "Painting",
-  "description": "Express your creativity through art.",
-  "category": "creative",
-  "votes": 0,
-  "createdAt": {
-    "$date": "2023-11-10T15:30:20.139Z"
-  },
-  "updatedAt": {
-    "$date": "2023-11-10T15:30:20.139Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "654e4c8cdfd2bc2c22bffd15"
-  },
-  "name": "Concert",
-  "description": "Enjoy live music and socialize at a concert event.",
-  "category": "social",
-  "votes": 7,
-  "createdAt": {
-    "$date": "2023-11-10T15:30:20.141Z"
-  },
-  "updatedAt": {
-    "$date": "2023-11-10T15:30:20.141Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "654e4ca2dfd2bc2c22bffd22"
-  },
-  "name": "Hiking",
-  "description": "Explore the great outdoors with a hiking adventure.",
-  "category": "relaxing",
-  "votes": 8,
-  "createdAt": {
-    "$date": "2023-11-10T15:30:42.141Z"
-  },
-  "updatedAt": {
-    "$date": "2023-11-10T15:30:42.141Z"
-  },
-  "__v": 0
-}]
+  {
+    "_id": {
+      "$oid": "656d3e552b4a3921b722821f"
+    },
+    "activity": "Explore the great outdoors with a hiking adventure.",
+    "type": "relaxing",
+    "createdAt": {
+      "$date": "2023-12-04T02:49:57.908Z"
+    },
+    "updatedAt": {
+      "$date": "2023-12-04T02:49:57.908Z"
+    },
+    "__v": 0
+  }
+]

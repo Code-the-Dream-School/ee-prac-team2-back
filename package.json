@@ -1,28 +1,43 @@
 {
-  "name": "bb-practicum-team-1-back",
+  "name": "ee-practicum-team2-back",
   "version": "1.0.0",
   "description": "Back-End Repo for Team 2 of Emu/Echidna Practicum",
+  "license": "ISC",
+  "author": "",
   "main": "app.js",
   "scripts": {
     "both": "concurrently \"cd ../ee-prac-team2-front && npm start\" \"npm run dev\"",
     "dev": "nodemon src/server.js",
-    "test": "mocha",
+    "format": "prettier . --write --ignore-path .gitignore && git update-index --again",
     "lint": "eslint . --ext .ts,.js, --fix --ignore-path .gitignore",
-    "start": "node src/server.js"
+    "nibble": "npx eslint-nibble .",
+    "start": "node src/server.js",
+    "test": "mocha"
   },
-  "author": "",
-  "license": "ISC",
+  "lint-staged": {
+    "*.{css,md,json}": [
+      "npm run format"
+    ],
+    "*.ts?(x)": [
+      "npm run format"
+    ],
+    "package.json": "npx sort-package-json"
+  },
   "dependencies": {
+    "axios": "^1.6.2",
     "bcrypt": "^5.1.1",
-    "cookie-parser": "^1.4.6",
+    "connect-mongo": "^5.1.0",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-async-errors": "^3.1.1",
     "express-favicon": "^2.0.4",
+    "express-session": "^1.17.3",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^7.0.1",
     "morgan": "^1.10.0",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0",
     "swagger-ui-express": "^5.0.0",
     "validator": "^13.11.0",
     "yamljs": "^0.3.0"
@@ -31,13 +46,22 @@
     "chai": "^4.3.10",
     "chai-http": "^4.4.0",
     "concurrently": "^8.2.2",
-    "eslint": "^8.52.0",
-    "eslint-config-semistandard": "^17.0.0",
-    "eslint-config-standard": "^17.1.0",
+    "eslint": "^8.55.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-nibble": "^8.1.0",
     "eslint-plugin-import": "^2.29.0",
     "eslint-plugin-n": "^15.7.0",
+    "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-promise": "^6.1.1",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.2",
     "mocha": "^10.2.0",
-    "nodemon": "^2.0.21"
+    "nodemon": "^2.0.21",
+    "prettier": "^2.7.1",
+    "sort-package-json": "^1.57.0"
+  },
+  "engines": {
+    "node": ">=16.14.2"
   }
 }

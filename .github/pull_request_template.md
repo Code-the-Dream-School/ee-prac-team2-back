@@ -2,6 +2,7 @@
 This PR resolves #0
 
 ## Change Summary
+
 - ...
 - **EXAMPLE:** _Add component [A]_
 - **EXAMPLE:** _Update feature [B] to do [C] when [D]_
