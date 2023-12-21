@@ -1,8 +1,7 @@
 require("dotenv").config();
 require("express-async-errors");
-const { scheduleJobToSelectActivity } = require("./utils/chosenActivityConfig");
-
 const mongoose = require("mongoose");
+const { scheduleJobToSelectActivity } = require("./utils/chosenActivityConfig");
 
 const { PORT = 8000, MONGODB_URI } = process.env;
 const app = require("./app");

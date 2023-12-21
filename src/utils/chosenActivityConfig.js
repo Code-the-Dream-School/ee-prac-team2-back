@@ -10,7 +10,6 @@ const CHOOSE_ACTIVITY_BEFORE_MINUTES = 1;
 const scheduleJobToSelectActivity = async function () {
   // The schedule job is set to run every minute
   schedule.scheduleJob("* * * * *", async () => {
-
     // Get all upcoming events within CHOOSE_ACTIVITY_BEFORE_MINUTES
     const upcomingEvents = await Event.find({
       eventDateTime: {
