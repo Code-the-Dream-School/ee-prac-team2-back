@@ -11,6 +11,7 @@
     "format": "prettier . --write --ignore-path .gitignore && git update-index --again",
     "lint": "eslint . --ext .ts,.js, --fix --ignore-path .gitignore",
     "nibble": "npx eslint-nibble .",
+    "prepare": "husky install",
     "start": "node src/server.js",
     "test": "mocha"
   },
